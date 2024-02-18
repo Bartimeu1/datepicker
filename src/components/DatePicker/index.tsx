@@ -4,9 +4,6 @@ import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
 
 import { DecoratedCalendar } from '@components/Calendar';
-import { theme } from '@constants/theme';
-import { GlobalStyle } from '@root/GlobalStyles';
-import { ThemeProvider } from 'styled-components';
 
 import {
   CalendarButton,
@@ -16,6 +13,8 @@ import {
   StyledDatePicker,
 } from './styled';
 import { IDateItem } from '@root/types/calendar';
+
+import { StylingWrapper } from '@components/StylingWrapper';
 
 import { convertDateItemToInputFormat } from '@root/utils/helpers';
 
@@ -44,8 +43,7 @@ export const DatePicker = ({ withHolidays }: IDatePickerProps) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
+    <StylingWrapper>
       <StyledDatePicker>
         <InputWrapper>
           <CalendarButton $isCalendarVisible={isCalendarVisible}>
@@ -71,6 +69,6 @@ export const DatePicker = ({ withHolidays }: IDatePickerProps) => {
           />
         )}
       </StyledDatePicker>
-    </ThemeProvider>
+    </StylingWrapper>
   );
 };
