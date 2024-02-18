@@ -1,3 +1,1 @@
-import { test } from '@components/test';
-
-export default test;
+export { DatePicker } from '@components/DatePicker';
