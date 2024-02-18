@@ -2,8 +2,10 @@ import { useState } from 'react';
 
 import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
-
 import { DecoratedCalendar } from '@components/Calendar';
+import { StylingWrapper } from '@components/StylingWrapper';
+import { IDateItem, LiteralViewTypes } from '@root/types/calendar';
+import { convertDateItemToInputFormat } from '@root/utils/helpers';
 
 import {
   CalendarButton,
@@ -12,17 +14,16 @@ import {
   InputWrapper,
   StyledDatePicker,
 } from './styled';
-import { IDateItem } from '@root/types/calendar';
-
-import { StylingWrapper } from '@components/StylingWrapper';
-
-import { convertDateItemToInputFormat } from '@root/utils/helpers';
 
 interface IDatePickerProps {
   withHolidays: boolean;
+  viewType: LiteralViewTypes;
 }
 
-export const DatePicker = ({ withHolidays }: IDatePickerProps) => {
+export const DatePicker = ({
+  withHolidays = false,
+  viewType = 'month',
+}: IDatePickerProps) => {
   const [dateInputValue, setDateInputValue] = useState('');
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
@@ -65,6 +66,7 @@ export const DatePicker = ({ withHolidays }: IDatePickerProps) => {
           <DecoratedCalendar
             dateInputValue={dateInputValue}
             withHolidays={withHolidays}
+            viewType={viewType}
             changeDateInputValue={changeDateInputValue}
           />
         )}

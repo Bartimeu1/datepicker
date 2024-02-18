@@ -18,6 +18,7 @@ export const getCurrentDateItem = () => {
 
   return {
     year: currentDate.getFullYear(),
+    week: Math.ceil(currentDate.getDate() / 7),
     month: currentDate.getMonth() + 1,
   };
 };
@@ -45,9 +46,11 @@ export const convertInputToDateItem = (inputDate: string) => {
   const day = Number(dateParts[0]);
   const month = Number(dateParts[1]);
   const year = Number(dateParts[2]);
+  const week = Math.floor(day / 7);
 
   return {
     day,
+    week,
     month,
     year,
   };
@@ -122,4 +125,17 @@ export const getCalendarDates = (year: number, month: number) => {
   });
 
   return [...prevMonthDates, ...currentMonthDates, ...nextMonthDates];
+};
+
+export const getWeekCalendarDates = (
+  year: number,
+  month: number,
+  week: number,
+) => {
+  const currentMonthDays = getCalendarDates(year, month);
+
+  const startIndex = week * 7;
+  const endIndex = startIndex + 7;
+
+  return currentMonthDays.slice(startIndex, endIndex);
 };

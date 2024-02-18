@@ -1,6 +1,6 @@
 import { ComponentType } from 'react';
 
-import { ICalendarProps,IDecoratedCalendarProps } from '@root/types/calendar';
+import { ICalendarProps, IDecoratedCalendarProps } from '@root/types/calendar';
 
 import { CalendarService } from './CalendarService';
 import { WithHolidays } from './WithHolidays';

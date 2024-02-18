@@ -1,21 +1,19 @@
 import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
 import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
+import { CalendarDay } from '@components/CalendarDay';
 import { weekDays } from '@constants/calendar';
 import { IDecoratedCalendarProps } from '@root/types/calendar';
-
-import { CalendarDay } from '@components/CalendarDay';
+import { CalendarDecorator } from '@services/CalendarDecorator';
 
 import {
-  WeekdayName,
   CalendarControls,
   CalendarDays,
+  CalendarHeader,
   CalendarWeeks,
   ControlsButton,
   StyledCalendar,
-  CalendarHeader,
+  WeekdayName,
 } from './styled';
-
-import { CalendarDecorator } from '@services/CalendarDecorator';
 
 const Calendar = (props: IDecoratedCalendarProps) => {
   const {

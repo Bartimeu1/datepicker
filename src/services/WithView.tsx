@@ -1,4 +1,4 @@
-import { ComponentType,useEffect, useState } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 
 import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
 import {
@@ -6,19 +6,21 @@ import {
   formatMonthYear,
   getCalendarDates,
   getCurrentDateItem,
+  getWeekCalendarDates,
   isValidDateItem,
 } from '@utils/helpers';
 import { getNextMonth, getPreviousMonth } from '@utils/helpers';
 
 interface IDateValueState {
   target: IDateItem | null;
+  week: number;
   month: number;
   year: number;
 }
 
 export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
   const WithViewComponent = (props: IDecoratedCalendarProps) => {
-    const { dateInputValue, changeDateInputValue } = props;
+    const { dateInputValue, changeDateInputValue, viewType } = props;
 
     const syncDateWithState = (inputValue: string) => {
       const inputDate = convertInputToDateItem(inputValue);
@@ -27,6 +29,7 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
 
       return {
         target: isInputDateValid ? inputDate : null,
+        week: chosenDate.week,
         month: chosenDate.month,
         year: chosenDate.year,
       };
@@ -41,11 +44,15 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     }, [dateInputValue]);
 
     const getCurrentCalendarDates = () => {
-      const { month, year } = dateValue;
+      const { month, year, week } = dateValue;
 
       const calendarMonth = month;
       const calendarYear = year;
-      return getCalendarDates(calendarYear, calendarMonth);
+      const calendarWeek = week;
+
+      return viewType === 'month'
+        ? getCalendarDates(calendarYear, calendarMonth)
+        : getWeekCalendarDates(calendarYear, calendarMonth, calendarWeek);
     };
 
     const getCurrentCalendarHeader = () => {
@@ -53,24 +60,43 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     };
 
     const onPrevButtonClick = () => {
-      const { target, month, year } = dateValue;
+      const { target, week, month, year } = dateValue;
       const previousMonth = getPreviousMonth(month, year);
-      setDateValue({
-        month: previousMonth.month,
-        year: previousMonth.year,
-        target: target,
-      });
+
+      if (viewType === 'week') {
+        const newWeek = week === 0 ? 4 : week - 1;
+        const newMonth = week === 0 ? previousMonth.month : month;
+        const newYear = week === 0 ? previousMonth.year : year;
+
+        setDateValue({ month: newMonth, week: newWeek, year: newYear, target });
+      } else if (viewType === 'month') {
+        setDateValue({
+          month: previousMonth.month,
+          week: 0,
+          year: previousMonth.year,
+          target,
+        });
+      }
     };
 
     const onNextButtonClick = () => {
-      const { target, month, year } = dateValue;
+      const { target, week, month, year } = dateValue;
       const nextMonth = getNextMonth(month, year);
 
-      setDateValue({
-        month: nextMonth.month,
-        year: nextMonth.year,
-        target: target,
-      });
+      if (viewType === 'week') {
+        const newWeek = week === 4 ? 0 : week + 1;
+        const newMonth = !newWeek ? nextMonth.month : month;
+        const newYear = !newWeek ? nextMonth.year : year;
+
+        setDateValue({ month: newMonth, week: newWeek, year: newYear, target });
+      } else if (viewType === 'month') {
+        setDateValue({
+          month: nextMonth.month,
+          week,
+          year: nextMonth.year,
+          target,
+        });
+      }
     };
 
     const isCalendarDayTarget = (date: IDateItem) => {
