@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { theme } from '@constants/theme';
 import { GlobalStyle } from '@root/GlobalStyles';
 import { ThemeProvider } from 'styled-components';

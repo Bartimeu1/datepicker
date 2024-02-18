@@ -1,6 +1,6 @@
-import { StyledCalendarDay } from './styled';
-
 import { IDateItem } from '@root/types/calendar';
+
+import { StyledCalendarDay } from './styled';
 
 interface ICalendarDayProps {
   isDisabled: boolean;

@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-
 import { FlexMixin } from '@utils/mixins';
+import styled from 'styled-components';
 
 interface IStyledCalendarDay {
   $isDisabled: boolean;

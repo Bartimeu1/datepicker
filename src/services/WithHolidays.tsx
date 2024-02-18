@@ -1,8 +1,7 @@
 import { ComponentType } from 'react';
 
-import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
-
 import { holidayDates } from '@constants/calendar';
+import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
 
 export const WithHolidays = (
   Calendar: ComponentType<IDecoratedCalendarProps>,

@@ -1,9 +1,10 @@
 import { ComponentType } from 'react';
-import { WithHolidays } from './WithHolidays';
-import { CalendarService } from './CalendarService';
-import { WithView } from './WithView';
 
-import { IDecoratedCalendarProps, ICalendarProps } from '@root/types/calendar';
+import { ICalendarProps,IDecoratedCalendarProps } from '@root/types/calendar';
+
+import { CalendarService } from './CalendarService';
+import { WithHolidays } from './WithHolidays';
+import { WithView } from './WithView';
 
 export const CalendarDecorator = function (
   Calendar: ComponentType<IDecoratedCalendarProps>,
