@@ -6,10 +6,12 @@ import {
   formatMonthYear,
   getCalendarDates,
   getCurrentDateItem,
+  getNextMonth,
+  getPreviousMonth,
   getWeekCalendarDates,
+  getYearCalendarDates,
   isValidDateItem,
 } from '@utils/helpers';
-import { getNextMonth, getPreviousMonth } from '@utils/helpers';
 
 interface IDateValueState {
   target: IDateItem | null;
@@ -50,13 +52,21 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       const calendarYear = year;
       const calendarWeek = week;
 
-      return viewType === 'month'
-        ? getCalendarDates(calendarYear, calendarMonth)
-        : getWeekCalendarDates(calendarYear, calendarMonth, calendarWeek);
+      if (viewType === 'year') {
+        return getYearCalendarDates(calendarYear);
+      } else if (viewType === 'month') {
+        return [getCalendarDates(calendarYear, calendarMonth)];
+      } else {
+        return [
+          getWeekCalendarDates(calendarYear, calendarMonth, calendarWeek),
+        ];
+      }
     };
 
     const getCurrentCalendarHeader = () => {
-      return formatMonthYear(dateValue.month, dateValue.year);
+      return viewType !== 'year'
+        ? formatMonthYear(dateValue.month, dateValue.year)
+        : String(dateValue.year);
     };
 
     const onPrevButtonClick = () => {
@@ -74,6 +84,13 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
           month: previousMonth.month,
           week: 0,
           year: previousMonth.year,
+          target,
+        });
+      } else if (viewType === 'year') {
+        setDateValue({
+          month: 1,
+          week: 0,
+          year: year - 1,
           target,
         });
       }
@@ -94,6 +111,13 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
           month: nextMonth.month,
           week,
           year: nextMonth.year,
+          target,
+        });
+      } else if (viewType === 'year') {
+        setDateValue({
+          month: 1,
+          week: 0,
+          year: year + 1,
           target,
         });
       }

@@ -139,3 +139,11 @@ export const getWeekCalendarDates = (
 
   return currentMonthDays.slice(startIndex, endIndex);
 };
+
+export const getYearCalendarDates = (year: number) => {
+  const yearCalendarDates = Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    return getCalendarDates(year, month);
+  });
+  return yearCalendarDates;
+};
