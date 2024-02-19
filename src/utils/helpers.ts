@@ -75,9 +75,13 @@ export const getFirstDayOfMonth = (year: number, month: number) => {
   return new Date(year, month - 1, 1).getDay();
 };
 
-export const getCalendarDates = (year: number, month: number) => {
+export const getCalendarDates = (
+  year: number,
+  month: number,
+  startDayIndex: number,
+) => {
   const currentMonthFirstDay = getFirstDayOfMonth(year, month) + 1;
-  const daysFromPrevMonth = currentMonthFirstDay - 1;
+  const daysFromPrevMonth = currentMonthFirstDay - startDayIndex - 1;
 
   const currentMonthDays = getDaysInMonth(year, month);
   const nextMonthDays =
@@ -131,8 +135,9 @@ export const getWeekCalendarDates = (
   year: number,
   month: number,
   week: number,
+  startDayIndex: number,
 ) => {
-  const currentMonthDays = getCalendarDates(year, month);
+  const currentMonthDays = getCalendarDates(year, month, startDayIndex);
 
   const startIndex = week * 7;
   const endIndex = startIndex + 7;
@@ -140,10 +145,10 @@ export const getWeekCalendarDates = (
   return currentMonthDays.slice(startIndex, endIndex);
 };
 
-export const getYearCalendarDates = (year: number) => {
+export const getYearCalendarDates = (year: number, startDayIndex: number) => {
   const yearCalendarDates = Array.from({ length: 12 }, (_, index) => {
     const month = index + 1;
-    return getCalendarDates(year, month);
+    return getCalendarDates(year, month, startDayIndex);
   });
   return yearCalendarDates;
 };

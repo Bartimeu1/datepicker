@@ -22,7 +22,7 @@ interface IDateValueState {
 
 export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
   const WithViewComponent = (props: IDecoratedCalendarProps) => {
-    const { dateInputValue, changeDateInputValue, viewType } = props;
+    const { dateInputValue, changeDateInputValue, viewType, startDay } = props;
 
     const syncDateWithState = (inputValue: string) => {
       const inputDate = convertInputToDateItem(inputValue);
@@ -45,6 +45,8 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       setDateValue(syncDateWithState(dateInputValue));
     }, [dateInputValue]);
 
+    const startDayIndex = startDay === 'monday' ? 1 : 0;
+
     const getCurrentCalendarDates = () => {
       const { month, year, week } = dateValue;
 
@@ -53,12 +55,17 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       const calendarWeek = week;
 
       if (viewType === 'year') {
-        return getYearCalendarDates(calendarYear);
+        return getYearCalendarDates(calendarYear, startDayIndex);
       } else if (viewType === 'month') {
-        return [getCalendarDates(calendarYear, calendarMonth)];
+        return [getCalendarDates(calendarYear, calendarMonth, startDayIndex)];
       } else {
         return [
-          getWeekCalendarDates(calendarYear, calendarMonth, calendarWeek),
+          getWeekCalendarDates(
+            calendarYear,
+            calendarMonth,
+            calendarWeek,
+            startDayIndex,
+          ),
         ];
       }
     };

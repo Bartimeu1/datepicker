@@ -1,7 +1,11 @@
 import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
 import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
 import { CalendarDay } from '@components/CalendarDay';
-import { calendarMonth,weekDays } from '@constants/calendar';
+import {
+  calendarMonth,
+  fromMondayWeekDays,
+  fromSundayWeekDays,
+} from '@constants/calendar';
 import { IDecoratedCalendarProps } from '@root/types/calendar';
 import { CalendarDecorator } from '@services/CalendarDecorator';
 
@@ -29,6 +33,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     currentCalendarDates,
     currentCalendarHeader,
     viewType,
+    startDay,
   } = props;
 
   return (
@@ -49,7 +54,10 @@ const Calendar = (props: IDecoratedCalendarProps) => {
               <MonthTitle>{calendarMonth[index].fullName}</MonthTitle>
             )}
             <CalendarWeeks>
-              {weekDays.map((week) => (
+              {(startDay === 'monday'
+                ? fromMondayWeekDays
+                : fromSundayWeekDays
+              ).map((week) => (
                 <WeekdayName>{week.shortName}</WeekdayName>
               ))}
             </CalendarWeeks>

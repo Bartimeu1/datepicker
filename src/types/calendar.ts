@@ -7,11 +7,14 @@ export interface IDateItem {
 
 export type LiteralViewTypes = 'week' | 'month' | 'year';
 
+export type LiteralStartDays = 'sunday' | 'monday';
+
 export interface ICalendarProps {
   dateInputValue: string;
   withHolidays: boolean;
   changeDateInputValue: (dateItem: IDateItem) => void;
   viewType: LiteralViewTypes;
+  startDay: LiteralStartDays;
 }
 
 export interface IDecoratedCalendarProps extends ICalendarProps {

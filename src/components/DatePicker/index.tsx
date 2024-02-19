@@ -4,7 +4,11 @@ import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
 import { DecoratedCalendar } from '@components/Calendar';
 import { StylingWrapper } from '@components/StylingWrapper';
-import { IDateItem, LiteralViewTypes } from '@root/types/calendar';
+import {
+  IDateItem,
+  LiteralStartDays,
+  LiteralViewTypes,
+} from '@root/types/calendar';
 import { convertDateItemToInputFormat } from '@root/utils/helpers';
 
 import {
@@ -18,11 +22,13 @@ import {
 interface IDatePickerProps {
   withHolidays: boolean;
   viewType: LiteralViewTypes;
+  startDay: LiteralStartDays;
 }
 
 export const DatePicker = ({
   withHolidays = false,
   viewType = 'month',
+  startDay = 'monday',
 }: IDatePickerProps) => {
   const [dateInputValue, setDateInputValue] = useState('');
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
@@ -67,6 +73,7 @@ export const DatePicker = ({
             dateInputValue={dateInputValue}
             withHolidays={withHolidays}
             viewType={viewType}
+            startDay={startDay}
             changeDateInputValue={changeDateInputValue}
           />
         )}

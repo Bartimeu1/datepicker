@@ -1,4 +1,4 @@
-export const weekDays = [
+export const fromSundayWeekDays = [
   { id: 1, fullName: 'Sunday', shortName: 'Su' },
   { id: 2, fullName: 'Monday', shortName: 'Mo' },
   { id: 3, fullName: 'Tuesday', shortName: 'Tu' },
@@ -6,6 +6,16 @@ export const weekDays = [
   { id: 5, fullName: 'Thursday', shortName: 'Th' },
   { id: 6, fullName: 'Friday', shortName: 'Fr' },
   { id: 7, fullName: 'Saturday', shortName: 'Sa' },
+];
+
+export const fromMondayWeekDays = [
+  { id: 1, fullName: 'Monday', shortName: 'Mo' },
+  { id: 2, fullName: 'Tuesday', shortName: 'Tu' },
+  { id: 3, fullName: 'Wednesday', shortName: 'We' },
+  { id: 4, fullName: 'Thursday', shortName: 'Th' },
+  { id: 5, fullName: 'Friday', shortName: 'Fr' },
+  { id: 6, fullName: 'Saturday', shortName: 'Sa' },
+  { id: 7, fullName: 'Sunday', shortName: 'Su' },
 ];
 
 export const calendarMonth = [
