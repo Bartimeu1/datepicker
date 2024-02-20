@@ -11,6 +11,7 @@ export const theme: ITheme = {
     placeholder: '#BBBBBB',
     border: '#E1E1E1',
     textHover: '#F1F1F1',
+    error: '#ff0000',
   },
   fontFamily: {
     primary: 'Open Sans, sans-serif',
@@ -23,6 +24,7 @@ export const theme: ITheme = {
     bold: 700,
   },
   fontSize: {
+    xs: 10,
     sm: 12,
     md: 13,
     lg: 14,

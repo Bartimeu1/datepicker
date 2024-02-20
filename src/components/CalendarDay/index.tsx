@@ -17,9 +17,15 @@ export const CalendarDay = ({
   isHoliday,
   onCalendarDayClick,
 }: ICalendarDayProps) => {
+  const handleClick = () => {
+    if (!isDisabled) {
+      onCalendarDayClick(date)();
+    }
+  };
+
   return (
     <StyledCalendarDay
-      onClick={onCalendarDayClick(date)}
+      onClick={handleClick}
       $isTarget={isTarget}
       $isHoliday={isHoliday}
       $isDisabled={isDisabled}>

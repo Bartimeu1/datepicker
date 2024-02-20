@@ -152,3 +152,37 @@ export const getYearCalendarDates = (year: number, startDayIndex: number) => {
   });
   return yearCalendarDates;
 };
+
+export const validateInputValue = (
+  inputValue: string,
+  minDateItem?: IDateItem | null,
+  maxDateItem?: IDateItem | null,
+) => {
+  const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+
+  if (!dateRegex.test(inputValue)) {
+    return 'Incorrect date format (ex 01/01/2023)';
+  }
+  const parts = inputValue.split('/');
+  const selectedDate = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
+
+  if (minDateItem) {
+    const { month, day, year } = minDateItem;
+    const minDate = new Date(`${month}/${day}/${year}`);
+
+    if (selectedDate < minDate) {
+      return `Input date must be greater than ${convertDateItemToInputFormat(minDateItem)}`;
+    }
+  }
+
+  if (maxDateItem) {
+    const { month, day, year } = maxDateItem;
+    const maxDate = new Date(`${month}/${day}/${year}`);
+
+    if (selectedDate > maxDate) {
+      return `Input date must be lower than ${convertDateItemToInputFormat(maxDateItem)}`;
+    }
+  }
+
+  return '';
+};

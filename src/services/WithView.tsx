@@ -1,6 +1,7 @@
 import { ComponentType, useEffect, useState } from 'react';
 
 import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
+import { validateInputValue } from '@utils/helpers';
 import {
   convertInputToDateItem,
   formatMonthYear,
@@ -9,8 +10,7 @@ import {
   getNextMonth,
   getPreviousMonth,
   getWeekCalendarDates,
-  getYearCalendarDates,
-  isValidDateItem,
+  getYearCalendarDates
 } from '@utils/helpers';
 
 interface IDateValueState {
@@ -22,15 +22,26 @@ interface IDateValueState {
 
 export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
   const WithViewComponent = (props: IDecoratedCalendarProps) => {
-    const { dateInputValue, changeDateInputValue, viewType, startDay } = props;
+    const {
+      dateInputValue,
+      changeDateInputValue,
+      viewType,
+      startDay,
+      minValue,
+      maxValue,
+    } = props;
 
     const syncDateWithState = (inputValue: string) => {
+      const isInputValueValid = !validateInputValue(
+        inputValue,
+        minValue,
+        maxValue,
+      );
       const inputDate = convertInputToDateItem(inputValue);
-      const isInputDateValid = isValidDateItem(inputDate);
-      const chosenDate = isInputDateValid ? inputDate : getCurrentDateItem();
+      const chosenDate = isInputValueValid ? inputDate : getCurrentDateItem();
 
       return {
-        target: isInputDateValid ? inputDate : null,
+        target: isInputValueValid ? inputDate : null,
         week: chosenDate.week,
         month: chosenDate.month,
         year: chosenDate.year,
@@ -40,7 +51,6 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     const [dateValue, setDateValue] = useState<IDateValueState>(
       syncDateWithState(dateInputValue),
     );
-
     useEffect(() => {
       setDateValue(syncDateWithState(dateInputValue));
     }, [dateInputValue]);
@@ -149,7 +159,21 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     };
 
     const isCalendarDayDisabled = (date: IDateItem) => {
-      return dateValue.month !== date.month;
+      const currentDate = new Date(date.year, date.month, date.day);
+      if (minValue) {
+        if (currentDate < new Date(minValue.year, minValue.month, minValue.day))
+          return true;
+      }
+      if (maxValue) {
+        if (currentDate > new Date(maxValue.year, maxValue.month, maxValue.day))
+          return true;
+      }
+
+      if (viewType !== 'year') {
+        return date.month !== dateValue.month;
+      }
+
+      return false;
     };
 
     const onCalendarDayClick = (date: IDateItem) => () => {

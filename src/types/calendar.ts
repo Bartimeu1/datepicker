@@ -10,6 +10,8 @@ export type LiteralViewTypes = 'week' | 'month' | 'year';
 export type LiteralStartDays = 'sunday' | 'monday';
 
 export interface ICalendarProps {
+  maxValue?: IDateItem | null;
+  minValue?: IDateItem | null;
   dateInputValue: string;
   withHolidays: boolean;
   changeDateInputValue: (dateItem: IDateItem) => void;

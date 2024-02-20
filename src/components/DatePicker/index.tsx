@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
-import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
 import { DecoratedCalendar } from '@components/Calendar';
+import { InputField } from '@components/InputField';
 import { StylingWrapper } from '@components/StylingWrapper';
 import {
   IDateItem,
@@ -10,26 +9,27 @@ import {
   LiteralViewTypes,
 } from '@root/types/calendar';
 import { convertDateItemToInputFormat } from '@root/utils/helpers';
+import { validateInputValue } from '@utils/helpers';
 
-import {
-  CalendarButton,
-  ClearButton,
-  DateInput,
-  InputWrapper,
-  StyledDatePicker,
-} from './styled';
+import { StyledDatePicker } from './styled';
 
 interface IDatePickerProps {
+  maxValue: IDateItem;
+  minValue: IDateItem;
   withHolidays: boolean;
   viewType: LiteralViewTypes;
   startDay: LiteralStartDays;
 }
 
-export const DatePicker = ({
-  withHolidays = false,
-  viewType = 'month',
-  startDay = 'monday',
-}: IDatePickerProps) => {
+export const DatePicker = (props: IDatePickerProps) => {
+  const {
+    withHolidays = false,
+    viewType = 'year',
+    startDay = 'monday',
+    minValue = { year: 2024, month: 1, day: 1 },
+    maxValue = { year: 2024, month: 1, day: 2 },
+  } = props;
+
   const [dateInputValue, setDateInputValue] = useState('');
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
@@ -38,7 +38,9 @@ export const DatePicker = ({
   };
 
   const onDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDateInputValue(e.target.value);
+    const inputValue = e.target.value;
+
+    setDateInputValue(inputValue);
   };
 
   const onClearButtonClick = () => {
@@ -49,31 +51,31 @@ export const DatePicker = ({
     setDateInputValue(convertDateItemToInputFormat(dateItem));
   };
 
+  const inputValidationText = useMemo(() => {
+    return (
+      dateInputValue && validateInputValue(dateInputValue, minValue, maxValue)
+    );
+  }, [dateInputValue]);
+
   return (
     <StylingWrapper>
       <StyledDatePicker>
-        <InputWrapper>
-          <CalendarButton $isCalendarVisible={isCalendarVisible}>
-            <CalendarIcon onClick={onCalendarIconClick} />
-          </CalendarButton>
-          <DateInput
-            type="text"
-            value={dateInputValue}
-            onChange={onDateInputChange}
-            placeholder="Choose Date"
-          />
-          {dateInputValue && (
-            <ClearButton onClick={onClearButtonClick}>
-              <ClearIcon />
-            </ClearButton>
-          )}
-        </InputWrapper>
+        <InputField
+          errorText={inputValidationText}
+          isCalendarVisible={isCalendarVisible}
+          dateInputValue={dateInputValue}
+          onCalendarIconClick={onCalendarIconClick}
+          onDateInputChange={onDateInputChange}
+          onClearButtonClick={onClearButtonClick}
+        />
         {isCalendarVisible && (
           <DecoratedCalendar
             dateInputValue={dateInputValue}
             withHolidays={withHolidays}
             viewType={viewType}
             startDay={startDay}
+            minValue={minValue}
+            maxValue={maxValue}
             changeDateInputValue={changeDateInputValue}
           />
         )}
