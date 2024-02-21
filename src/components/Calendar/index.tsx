@@ -25,8 +25,10 @@ import {
 const Calendar = (props: IDecoratedCalendarProps) => {
   const {
     onCalendarDayClick,
-    isCalendarDayDisabled,
-    isCalendarDayTarget,
+    isDayDisabled,
+    isTargetDay,
+    isTargetEndDay,
+    isDayInRange,
     checkIfHoliday,
     onPrevButtonClick,
     onNextButtonClick,
@@ -34,6 +36,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     currentCalendarHeader,
     viewType,
     startDay,
+    range,
   } = props;
 
   return (
@@ -64,9 +67,12 @@ const Calendar = (props: IDecoratedCalendarProps) => {
             <CalendarDays>
               {month.map((date) => (
                 <CalendarDay
+                  range={range}
                   date={date}
-                  isDisabled={isCalendarDayDisabled(date)}
-                  isTarget={isCalendarDayTarget(date)}
+                  isTargetEnd={isTargetEndDay(date)}
+                  isDisabled={isDayDisabled(date)}
+                  isInRange={isDayInRange(date)}
+                  isTarget={isTargetDay(date)}
                   isHoliday={checkIfHoliday ? checkIfHoliday(date) : null}
                   onCalendarDayClick={onCalendarDayClick}
                 />

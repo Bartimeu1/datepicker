@@ -10,7 +10,7 @@ import {
   getNextMonth,
   getPreviousMonth,
   getWeekCalendarDates,
-  getYearCalendarDates
+  getYearCalendarDates,
 } from '@utils/helpers';
 
 interface IDateValueState {
@@ -23,12 +23,14 @@ interface IDateValueState {
 export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
   const WithViewComponent = (props: IDecoratedCalendarProps) => {
     const {
-      dateInputValue,
+      startDateInputValue,
+      endDateInputValue,
       changeDateInputValue,
       viewType,
       startDay,
       minValue,
       maxValue,
+      range,
     } = props;
 
     const syncDateWithState = (inputValue: string) => {
@@ -48,17 +50,26 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       };
     };
 
-    const [dateValue, setDateValue] = useState<IDateValueState>(
-      syncDateWithState(dateInputValue),
+    const [startDateValue, setStartDateValue] = useState<IDateValueState>(
+      syncDateWithState(startDateInputValue),
     );
+
+    const [endDateValue, setEndDateValue] = useState<IDateValueState>(
+      syncDateWithState(endDateInputValue),
+    );
+
     useEffect(() => {
-      setDateValue(syncDateWithState(dateInputValue));
-    }, [dateInputValue]);
+      setStartDateValue(syncDateWithState(startDateInputValue));
+    }, [startDateInputValue]);
+
+    useEffect(() => {
+      setEndDateValue(syncDateWithState(endDateInputValue));
+    }, [endDateInputValue]);
 
     const startDayIndex = startDay === 'monday' ? 1 : 0;
 
     const getCurrentCalendarDates = () => {
-      const { month, year, week } = dateValue;
+      const { month, year, week } = startDateValue;
 
       const calendarMonth = month;
       const calendarYear = year;
@@ -82,12 +93,12 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
 
     const getCurrentCalendarHeader = () => {
       return viewType !== 'year'
-        ? formatMonthYear(dateValue.month, dateValue.year)
-        : String(dateValue.year);
+        ? formatMonthYear(startDateValue.month, startDateValue.year)
+        : String(startDateValue.year);
     };
 
     const onPrevButtonClick = () => {
-      const { target, week, month, year } = dateValue;
+      const { target, week, month, year } = startDateValue;
       const previousMonth = getPreviousMonth(month, year);
 
       if (viewType === 'week') {
@@ -95,16 +106,21 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
         const newMonth = week === 0 ? previousMonth.month : month;
         const newYear = week === 0 ? previousMonth.year : year;
 
-        setDateValue({ month: newMonth, week: newWeek, year: newYear, target });
+        setStartDateValue({
+          month: newMonth,
+          week: newWeek,
+          year: newYear,
+          target,
+        });
       } else if (viewType === 'month') {
-        setDateValue({
+        setStartDateValue({
           month: previousMonth.month,
           week: 0,
           year: previousMonth.year,
           target,
         });
       } else if (viewType === 'year') {
-        setDateValue({
+        setStartDateValue({
           month: 1,
           week: 0,
           year: year - 1,
@@ -114,7 +130,7 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     };
 
     const onNextButtonClick = () => {
-      const { target, week, month, year } = dateValue;
+      const { target, week, month, year } = startDateValue;
       const nextMonth = getNextMonth(month, year);
 
       if (viewType === 'week') {
@@ -122,16 +138,21 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
         const newMonth = !newWeek ? nextMonth.month : month;
         const newYear = !newWeek ? nextMonth.year : year;
 
-        setDateValue({ month: newMonth, week: newWeek, year: newYear, target });
+        setStartDateValue({
+          month: newMonth,
+          week: newWeek,
+          year: newYear,
+          target,
+        });
       } else if (viewType === 'month') {
-        setDateValue({
+        setStartDateValue({
           month: nextMonth.month,
           week,
           year: nextMonth.year,
           target,
         });
       } else if (viewType === 'year') {
-        setDateValue({
+        setStartDateValue({
           month: 1,
           week: 0,
           year: year + 1,
@@ -141,7 +162,25 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     };
 
     const isCalendarDayTarget = (date: IDateItem) => {
-      const targetDate = dateValue.target;
+      const targetDate = startDateValue.target;
+      if (targetDate) {
+        const { day, month, year } = date;
+        const {
+          day: targetDay,
+          month: targetMonth,
+          year: targetYear,
+        } = targetDate;
+
+        return (
+          month === targetMonth && day === targetDay && year === targetYear
+        );
+      }
+
+      return false;
+    };
+
+    const isTargetEnd = (date: IDateItem) => {
+      const targetDate = endDateValue.target;
       if (targetDate) {
         const { day, month, year } = date;
         const {
@@ -170,14 +209,62 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       }
 
       if (viewType !== 'year') {
-        return date.month !== dateValue.month;
+        return date.month !== startDateValue.month;
       }
 
       return false;
     };
 
+    const isDayInRange = (date: IDateItem) => {
+      const startDayTarget = startDateValue.target;
+      const endDayTarget = endDateValue.target;
+
+      if (startDayTarget && endDayTarget) {
+        const {
+          day: startDay,
+          month: startMonth,
+          year: startYear,
+        } = startDayTarget;
+
+        const { day: endDay, month: endMonth, year: endYear } = endDayTarget;
+
+        const currentDate = new Date(date.year, date.month, date.day);
+        const startDate = new Date(startYear, startMonth, startDay);
+        const endDate = new Date(endYear, endMonth, endDay);
+
+        if (currentDate > startDate && currentDate < endDate) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    const onRangeCalendarDayClick = (date: IDateItem) => () => {
+      if (!startDateValue.target) {
+        changeDateInputValue(date, 'start');
+      } else if (!endDateValue.target) {
+        if (
+          date.year > startDateValue.target.year ||
+          (date.year === startDateValue.target.year &&
+            date.month > startDateValue.target.month) ||
+          (date.year === startDateValue.target.year &&
+            date.month === startDateValue.target.month &&
+            date.day >= startDateValue.target.day)
+        ) {
+          changeDateInputValue(date, 'end');
+        } else {
+          changeDateInputValue(date, 'start');
+          changeDateInputValue(startDateValue.target, 'end');
+        }
+      } else {
+        changeDateInputValue(date, 'start');
+        changeDateInputValue(null, 'end');
+      }
+    };
+
     const onCalendarDayClick = (date: IDateItem) => () => {
-      changeDateInputValue(date);
+      changeDateInputValue(date, 'start');
     };
 
     return (
@@ -187,9 +274,13 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
         currentCalendarHeader={getCurrentCalendarHeader()}
         onPrevButtonClick={onPrevButtonClick}
         onNextButtonClick={onNextButtonClick}
-        isCalendarDayTarget={isCalendarDayTarget}
-        isCalendarDayDisabled={isCalendarDayDisabled}
-        onCalendarDayClick={onCalendarDayClick}
+        isTargetDay={isCalendarDayTarget}
+        isDayInRange={isDayInRange}
+        isTargetEndDay={isTargetEnd}
+        isDayDisabled={isCalendarDayDisabled}
+        onCalendarDayClick={
+          range ? onRangeCalendarDayClick : onCalendarDayClick
+        }
       />
     );
   };

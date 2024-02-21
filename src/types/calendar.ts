@@ -12,9 +12,11 @@ export type LiteralStartDays = 'sunday' | 'monday';
 export interface ICalendarProps {
   maxValue?: IDateItem | null;
   minValue?: IDateItem | null;
-  dateInputValue: string;
+  range: boolean;
+  startDateInputValue: string;
+  endDateInputValue: string;
   withHolidays: boolean;
-  changeDateInputValue: (dateItem: IDateItem) => void;
+  changeDateInputValue: (dateItem: IDateItem | null, type: string) => void;
   viewType: LiteralViewTypes;
   startDay: LiteralStartDays;
 }
@@ -26,6 +28,8 @@ export interface IDecoratedCalendarProps extends ICalendarProps {
   onCalendarDayClick: (date: IDateItem) => () => void;
   onPrevButtonClick: () => void;
   onNextButtonClick: () => void;
-  isCalendarDayTarget: (date: IDateItem) => boolean;
-  isCalendarDayDisabled: (date: IDateItem) => boolean;
+  isTargetDay: (date: IDateItem) => boolean;
+  isTargetEndDay: (date: IDateItem) => boolean;
+  isDayDisabled: (date: IDateItem) => boolean;
+  isDayInRange: (date: IDateItem) => boolean;
 }
