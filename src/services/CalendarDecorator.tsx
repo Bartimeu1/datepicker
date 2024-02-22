@@ -4,19 +4,24 @@ import { ICalendarProps, IDecoratedCalendarProps } from '@root/types/calendar';
 
 import { CalendarService } from './CalendarService';
 import { WithHolidays } from './WithHolidays';
-import { WithView } from './WithView';
+import { WithTodos } from './WithTodos';
+import { WithViewLogic } from './WithViewLogic';
 
 export const CalendarDecorator = function (
   Calendar: ComponentType<IDecoratedCalendarProps>,
 ) {
-  return (props: ICalendarProps) => {
-    const { withHolidays } = props;
+  const WithDecorators = (props: ICalendarProps) => {
+    const { holidays, todos } = props;
     const calendarService = new CalendarService(Calendar);
 
-    calendarService.addDecorator(WithView);
+    calendarService.addDecorator(WithViewLogic);
 
-    if (withHolidays) {
+    if (holidays) {
       calendarService.addDecorator(WithHolidays);
+    }
+
+    if (todos) {
+      calendarService.addDecorator(WithTodos);
     }
 
     const DecoratedCalendar =
@@ -24,4 +29,6 @@ export const CalendarDecorator = function (
 
     return <DecoratedCalendar {...props} />;
   };
+
+  return WithDecorators;
 };

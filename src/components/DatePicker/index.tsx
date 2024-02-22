@@ -1,35 +1,32 @@
-import { useState } from 'react';
+import { useRef,useState } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
 import { InputField } from '@components/InputField';
 import { StylingWrapper } from '@components/StylingWrapper';
+import { useOnClickOutside } from '@root/hooks';
 import {
+  CalendarStartDaysEnum,
+  CalendarViewTypesEnum,
+  DateInputType,
+  DateInputTypesEnum,
   IDateItem,
-  LiteralStartDays,
-  LiteralViewTypes,
 } from '@root/types/calendar';
-import { convertDateItemToInputFormat } from '@utils/helpers';
+import { formatDateItemToInput } from '@utils/input';
 
 import { StyledDatePicker } from './styled';
-
-interface IDatePickerProps {
-  maxValue: IDateItem;
-  minValue: IDateItem;
-  range: boolean;
-  withHolidays: boolean;
-  viewType: LiteralViewTypes;
-  startDay: LiteralStartDays;
-}
+import { IDatePickerProps } from './types';
 
 export const DatePicker = (props: IDatePickerProps) => {
   const {
-    withHolidays = false,
-    viewType = 'month',
+    holidays = true,
+    todos = true,
     range = false,
-    startDay = 'monday',
-    minValue = { day: 1, month: 1, year: 2024 },
-    maxValue = { day: 5, month: 1, year: 2024 },
+    minValue,
+    maxValue,
+    viewType = CalendarViewTypesEnum.month,
+    startDay = CalendarStartDaysEnum.monday,
   } = props;
+  const pickerRef = useRef(null);
 
   const [startDateInputValue, setStartDateInputValue] = useState('');
   const [endDateInputValue, setEndDateInputValue] = useState('');
@@ -41,51 +38,57 @@ export const DatePicker = (props: IDatePickerProps) => {
 
   const changeDateInputValue = (
     dateItem: IDateItem | null,
-    type: string = 'start',
+    type: DateInputType = DateInputTypesEnum.start,
   ) => {
-    const convertedValue = dateItem
-      ? convertDateItemToInputFormat(dateItem)
-      : '';
+    const dateInputValue = dateItem ? formatDateItemToInput(dateItem) : '';
 
-    if (type === 'start') {
-      setStartDateInputValue(convertedValue);
+    if (type === DateInputTypesEnum.start) {
+      setStartDateInputValue(dateInputValue);
     } else {
-      setEndDateInputValue(convertedValue);
+      setEndDateInputValue(dateInputValue);
     }
   };
 
+  const inputFieldProps = {
+    minValue: minValue,
+    maxValue: maxValue,
+    isCalendarVisible: isCalendarVisible,
+    onCalendarIconClick: onCalendarIconClick,
+  };
+
+  const closeCalendar = () => {
+    setIsCalendarVisible(false);
+  };
+
+  useOnClickOutside(pickerRef, closeCalendar);
+
   return (
     <StylingWrapper>
-      <StyledDatePicker>
+      <StyledDatePicker ref={pickerRef}>
         <InputField
           setInputValue={setStartDateInputValue}
-          minValue={minValue}
-          maxValue={maxValue}
-          isCalendarVisible={isCalendarVisible}
           dateInputValue={startDateInputValue}
-          onCalendarIconClick={onCalendarIconClick}
+          {...inputFieldProps}
         />
         {range && (
           <InputField
             setInputValue={setEndDateInputValue}
-            minValue={minValue}
-            maxValue={maxValue}
-            isCalendarVisible={isCalendarVisible}
             dateInputValue={endDateInputValue}
-            onCalendarIconClick={onCalendarIconClick}
+            {...inputFieldProps}
           />
         )}
         {isCalendarVisible && (
           <DecoratedCalendar
             startDateInputValue={startDateInputValue}
             endDateInputValue={endDateInputValue}
-            withHolidays={withHolidays}
+            changeDateInputValue={changeDateInputValue}
+            holidays={holidays}
+            todos={todos}
+            range={range}
             viewType={viewType}
             startDay={startDay}
             minValue={minValue}
             maxValue={maxValue}
-            changeDateInputValue={changeDateInputValue}
-            range={range}
           />
         )}
       </StyledDatePicker>

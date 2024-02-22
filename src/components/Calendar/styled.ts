@@ -1,4 +1,4 @@
-import { FlexMixin } from '@utils/mixins';
+import { FlexMixin } from '@root/GlobalStyles';
 import styled from 'styled-components';
 
 interface IStyledCalendar {

@@ -1,4 +1,11 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
+
+interface IFlexMixin {
+  align?: string;
+  justify?: string;
+  direction?: string;
+  wrap?: string;
+}
 
 export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -18,4 +25,17 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: none;
   }
+`;
+
+export const FlexMixin = ({
+  align = 'stretch',
+  justify = 'flex-start',
+  direction = 'row',
+  wrap = 'nowrap',
+}: IFlexMixin = {}) => css`
+  display: flex;
+  align-items: ${align};
+  justify-content: ${justify};
+  flex-direction: ${direction};
+  flex-wrap: ${wrap};
 `;

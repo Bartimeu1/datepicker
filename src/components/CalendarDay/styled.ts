@@ -1,5 +1,5 @@
-import { FlexMixin } from '@utils/mixins';
-import styled from 'styled-components';
+import { FlexMixin } from '@root/GlobalStyles';
+import styled, { css } from 'styled-components';
 
 interface IStyledCalendarDay {
   $isDisabled: boolean;
@@ -18,45 +18,45 @@ export const StyledCalendarDay = styled.div<IStyledCalendarDay>`
   flex: 0 0 14%;
   height: 32px;
 
-  ${({ $isDisabled, theme }) =>
-    $isDisabled &&
-    `
-    color: ${theme.color.disabled};
-  `};
+  ${({ $isDisabled }) => $isDisabled && disabledStyles};
+  ${({ $isHoliday }) => $isHoliday && holidayStyles};
+  ${({ $isInRange }) => $isInRange && inRangeStyles};
+  ${({ $isTargetEnd }) => $isTargetEnd && targetEndStyles};
+  ${({ $isTarget, $range }) =>
+    $isTarget && $range ? rangeStyles : $isTarget ? targetStyles : ''};
+`;
 
-  ${({ $isHoliday, theme }) =>
-    $isHoliday &&
-    `
-    background: ${theme.color.holiday};
-  `};
+const disabledStyles = css`
+  color: ${({ theme }) => theme.color.disabled};
+`;
 
-  ${({ $isInRange, theme }) =>
-    $isInRange &&
-    `
-    background-color: rgba(47, 128, 237, 0.1);
-    color: ${theme.color.selected};
-  `};
+const holidayStyles = css`
+  background: ${({ theme }) => theme.color.holiday};
+  color: ${({ theme }) => theme.color.white};
+  border-radius: ${({ theme }) => theme.borderRadius.md}px;
+`;
 
-  ${({ $isTargetEnd, theme }) =>
-    $isTargetEnd &&
-    `
-    color: ${theme.color.white};
-    background: ${theme.color.selected};
-    border-top-right-radius: ${theme.borderRadius.md}px;
-    border-bottom-right-radius: ${theme.borderRadius.md}px;
-  `};
+const inRangeStyles = css`
+  background-color: rgba(47, 128, 237, 0.1);
+  color: ${({ theme }) => theme.color.selected};
+`;
 
-  ${({ $isTarget, $range, theme }) =>
-    $isTarget &&
-    `color: ${theme.color.white};
-    background: ${theme.color.selected};
-    ${
-      $range &&
-      `
-      background-color: rgba(47, 128, 237, 0.6);
-      border-top-left-radius: ${theme.borderRadius.md}px;
-      border-bottom-left-radius: ${theme.borderRadius.md}px;
-    `
-    }
-    `}
+const targetEndStyles = css`
+  color: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.selected};
+  border-top-right-radius: ${({ theme }) => theme.borderRadius.md}px;
+  border-bottom-right-radius: ${({ theme }) => theme.borderRadius.md}px;
+`;
+
+const targetStyles = css`
+  color: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.selected};
+  border-radius: ${({ theme }) => theme.borderRadius.md}px;
+`;
+
+const rangeStyles = css`
+  background-color: rgba(47, 128, 237, 0.6);
+  color: ${({ theme }) => theme.color.white};
+  border-radius: ${({ theme }) => theme.borderRadius.md}px 0 0
+    ${({ theme }) => theme.borderRadius.md}px;
 `;

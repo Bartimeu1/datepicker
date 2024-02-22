@@ -9,7 +9,7 @@ interface ICalendarDayProps {
   isTargetEnd: boolean | null;
   isHoliday: boolean | null;
   isInRange: boolean;
-  onDoubleClick: () => () => void;
+  toggleTodoModal: () => void;
   date: IDateItem;
   onCalendarDayClick: (date: IDateItem) => () => void;
 }
@@ -22,7 +22,7 @@ export const CalendarDay = ({
   isHoliday,
   isInRange,
   range,
-  onDoubleClick,
+  toggleTodoModal,
   onCalendarDayClick,
 }: ICalendarDayProps) => {
   const handleClick = () => {
@@ -33,7 +33,7 @@ export const CalendarDay = ({
 
   const handleDoubleClick = () => {
     if (!isDisabled) {
-      onDoubleClick()();
+      toggleTodoModal();
     }
   };
 

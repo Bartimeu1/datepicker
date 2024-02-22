@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
 import { IDateItem } from '@root/types/calendar';
-import { validateInputValue } from '@utils/helpers';
+import { validateInputValue } from '@utils/input';
 
 import {
   CalendarButton,

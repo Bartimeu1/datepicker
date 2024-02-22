@@ -1,13 +1,10 @@
 export interface IDateItem {
+  id?: string;
   year: number;
   month: number;
   week?: number;
   day: number;
 }
-
-export type LiteralViewTypes = 'week' | 'month' | 'year';
-
-export type LiteralStartDays = 'sunday' | 'monday';
 
 export interface ICalendarProps {
   maxValue?: IDateItem | null;
@@ -15,8 +12,12 @@ export interface ICalendarProps {
   range: boolean;
   startDateInputValue: string;
   endDateInputValue: string;
-  withHolidays: boolean;
-  changeDateInputValue: (dateItem: IDateItem | null, type: string) => void;
+  holidays: boolean;
+  todos: boolean;
+  changeDateInputValue: (
+    dateItem: IDateItem | null,
+    type: DateInputType,
+  ) => void;
   viewType: LiteralViewTypes;
   startDay: LiteralStartDays;
 }
@@ -25,6 +26,7 @@ export interface IDecoratedCalendarProps extends ICalendarProps {
   currentCalendarDates: IDateItem[][];
   currentCalendarHeader: string;
   targetDateItem: IDateItem | null;
+  targetEndDateItem: IDateItem | null;
   checkIfHoliday?: (dateItem: IDateItem) => boolean;
   onCalendarDayClick: (date: IDateItem) => () => void;
   onPrevButtonClick: () => void;
@@ -33,4 +35,29 @@ export interface IDecoratedCalendarProps extends ICalendarProps {
   isTargetEndDay: (date: IDateItem) => boolean;
   isDayDisabled: (date: IDateItem) => boolean;
   isDayInRange: (date: IDateItem) => boolean;
+  toggleTodoModal: () => void;
+  closeTodoModal: () => void;
+  isTodoModalVisible: boolean;
 }
+
+export enum DateInputTypesEnum {
+  start = 'start',
+  end = 'end',
+}
+
+export enum CalendarViewTypesEnum {
+  year = 'year',
+  month = 'month',
+  week = 'week',
+}
+
+export enum CalendarStartDaysEnum {
+  sunday = 'sunday',
+  monday = 'monday',
+}
+
+export type DateInputType = keyof typeof DateInputTypesEnum;
+
+export type LiteralViewTypes = keyof typeof CalendarViewTypesEnum;
+
+export type LiteralStartDays = keyof typeof CalendarStartDaysEnum;

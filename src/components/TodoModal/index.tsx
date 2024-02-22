@@ -1,8 +1,10 @@
-import { useEffect,useState } from 'react';
+import { useCallback, useEffect, useRef,useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ReactComponent as ClearIcon } from '@assets/images/delete.svg';
+import { useOnClickOutside } from '@root/hooks';
 import { IDateItem } from '@root/types/calendar';
+import { v1 as uuidv1 } from 'uuid';
 
 import {
   AddButton,
@@ -19,17 +21,20 @@ import {
 
 interface ITodoModalProps {
   dateItem: IDateItem | null;
+  closeModal: () => void;
 }
 
 interface ITodoItem {
-  id: number;
+  id: string;
   value: string;
 }
 
-export const TodoModal = ({ dateItem }: ITodoModalProps) => {
+export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
+  const modalRef = useRef(null);
+
   const [inputValue, setInputValue] = useState('');
+
   const getTodos = () => {
-    console.log(dateItem);
     const savedTodos = localStorage.getItem(`todo_${JSON.stringify(dateItem)}`);
     if (savedTodos) {
       return JSON.parse(savedTodos);
@@ -38,16 +43,16 @@ export const TodoModal = ({ dateItem }: ITodoModalProps) => {
 
   const [todoItems, setTodoItems] = useState<ITodoItem[]>(getTodos());
 
-  const setTodos = () => {
+  const setTodos = useCallback(() => {
     localStorage.setItem(
       `todo_${JSON.stringify(dateItem)}`,
       JSON.stringify(todoItems),
     );
-  };
+  }, [todoItems, dateItem]);
 
   useEffect(() => {
     setTodos();
-  }, [todoItems]);
+  }, [todoItems, setTodos]);
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -57,26 +62,28 @@ export const TodoModal = ({ dateItem }: ITodoModalProps) => {
     if (inputValue.trim() !== '') {
       const todoItem = {
         value: inputValue,
-        id: todoItems.length,
+        id: uuidv1(),
       };
       setTodoItems((prevState) => [...prevState, todoItem]);
       setInputValue('');
     }
   };
 
-  const deleteTodo = (itemId: number) => () => {
+  const deleteTodo = (itemId: string) => () => {
     setTodoItems((prevState) => prevState.filter((item) => item.id !== itemId));
   };
 
+  useOnClickOutside(modalRef, closeModal);
+
   return createPortal(
     <StyledModal>
-      <ModalContent>
+      <ModalContent ref={modalRef}>
         <ModalTitle>Add Todo</ModalTitle>
         <TodoList>
-          {todoItems.map((item, index) => (
-            <TodoItem>
-              <TodoItemText>{item.value}</TodoItemText>
-              <ClearIcon onClick={deleteTodo(index)} />
+          {todoItems.map(({ id, value }) => (
+            <TodoItem key={id}>
+              <TodoItemText>{value}</TodoItemText>
+              <ClearIcon onClick={deleteTodo(id)} />
             </TodoItem>
           ))}
         </TodoList>
@@ -88,7 +95,7 @@ export const TodoModal = ({ dateItem }: ITodoModalProps) => {
         />
         <ModalControls>
           <AddButton onClick={addTodo}>Accept</AddButton>
-          <ClearButton>Cancel</ClearButton>
+          <ClearButton onClick={closeModal}>Cancel</ClearButton>
         </ModalControls>
       </ModalContent>
     </StyledModal>,

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
 import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
 import { CalendarDay } from '@components/CalendarDay';
@@ -9,7 +7,11 @@ import {
   fromMondayWeekDays,
   fromSundayWeekDays,
 } from '@constants/calendar';
-import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
+import {
+  CalendarStartDaysEnum,
+  CalendarViewTypesEnum,
+  IDecoratedCalendarProps,
+} from '@root/types/calendar';
 import { CalendarDecorator } from '@services/CalendarDecorator';
 
 import {
@@ -41,17 +43,13 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     targetDateItem,
     startDay,
     range,
+    isTodoModalVisible,
+    toggleTodoModal,
+    closeTodoModal,
   } = props;
 
-  const [isTodoModalVisible, setIdTodoModalVisible] = useState(false);
-
-  const onDoubleClick = () => () => {
-    setIdTodoModalVisible((prevState) => !prevState);
-    console.log('1')
-  };
-
   return (
-    <StyledCalendar $isYearDisplay={viewType === 'year'}>
+    <StyledCalendar $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
       <CalendarControls>
         <ControlsButton onClick={onPrevButtonClick}>
           <ChevronPrev />
@@ -61,23 +59,24 @@ const Calendar = (props: IDecoratedCalendarProps) => {
           <ChevronNext />
         </ControlsButton>
       </CalendarControls>
-      <CalendarDisplay $isYearDisplay={viewType === 'year'}>
+      <CalendarDisplay $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
         {currentCalendarDates.map((month, index) => (
-          <CalendarMonth>
-            {viewType === 'year' && (
+          <CalendarMonth key={index}>
+            {viewType === CalendarViewTypesEnum.year && (
               <MonthTitle>{calendarMonth[index].fullName}</MonthTitle>
             )}
             <CalendarWeeks>
-              {(startDay === 'monday'
+              {(startDay === CalendarStartDaysEnum.monday
                 ? fromMondayWeekDays
                 : fromSundayWeekDays
               ).map((week) => (
-                <WeekdayName>{week.shortName}</WeekdayName>
+                <WeekdayName key={week.id}>{week.shortName}</WeekdayName>
               ))}
             </CalendarWeeks>
             <CalendarDays>
               {month.map((date) => (
                 <CalendarDay
+                  key={date.id}
                   range={range}
                   date={date}
                   isTargetEnd={isTargetEndDay(date)}
@@ -86,14 +85,16 @@ const Calendar = (props: IDecoratedCalendarProps) => {
                   isTarget={isTargetDay(date)}
                   isHoliday={checkIfHoliday ? checkIfHoliday(date) : null}
                   onCalendarDayClick={onCalendarDayClick}
-                  onDoubleClick={onDoubleClick}
+                  toggleTodoModal={toggleTodoModal}
                 />
               ))}
             </CalendarDays>
           </CalendarMonth>
         ))}
       </CalendarDisplay>
-      {isTodoModalVisible && <TodoModal dateItem={targetDateItem} />}
+      {isTodoModalVisible && (
+        <TodoModal dateItem={targetDateItem} closeModal={closeTodoModal} />
+      )}
     </StyledCalendar>
   );
 };
