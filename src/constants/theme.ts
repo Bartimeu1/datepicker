@@ -31,6 +31,7 @@ export const theme: ITheme = {
     xl: 15,
   },
   borderRadius: {
+    sm: 6,
     md: 8,
   },
 };

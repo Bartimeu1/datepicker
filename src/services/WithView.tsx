@@ -278,6 +278,7 @@ export const WithView = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
         isDayInRange={isDayInRange}
         isTargetEndDay={isTargetEnd}
         isDayDisabled={isCalendarDayDisabled}
+        targetDateItem={startDateValue.target}
         onCalendarDayClick={
           range ? onRangeCalendarDayClick : onCalendarDayClick
         }

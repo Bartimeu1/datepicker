@@ -8,7 +8,7 @@ import {
   LiteralStartDays,
   LiteralViewTypes,
 } from '@root/types/calendar';
-import { convertDateItemToInputFormat } from '@root/utils/helpers';
+import { convertDateItemToInputFormat } from '@utils/helpers';
 
 import { StyledDatePicker } from './styled';
 
@@ -25,10 +25,10 @@ export const DatePicker = (props: IDatePickerProps) => {
   const {
     withHolidays = false,
     viewType = 'month',
-    range = true,
+    range = false,
     startDay = 'monday',
-    minValue = { day: 1, month: 1, year: 2024},
-    maxValue = { day: 5, month: 1, year: 2024},
+    minValue = { day: 1, month: 1, year: 2024 },
+    maxValue = { day: 5, month: 1, year: 2024 },
   } = props;
 
   const [startDateInputValue, setStartDateInputValue] = useState('');

@@ -24,6 +24,7 @@ export interface ICalendarProps {
 export interface IDecoratedCalendarProps extends ICalendarProps {
   currentCalendarDates: IDateItem[][];
   currentCalendarHeader: string;
+  targetDateItem: IDateItem | null;
   checkIfHoliday?: (dateItem: IDateItem) => boolean;
   onCalendarDayClick: (date: IDateItem) => () => void;
   onPrevButtonClick: () => void;

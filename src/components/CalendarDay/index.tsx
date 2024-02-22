@@ -9,6 +9,7 @@ interface ICalendarDayProps {
   isTargetEnd: boolean | null;
   isHoliday: boolean | null;
   isInRange: boolean;
+  onDoubleClick: () => () => void;
   date: IDateItem;
   onCalendarDayClick: (date: IDateItem) => () => void;
 }
@@ -21,6 +22,7 @@ export const CalendarDay = ({
   isHoliday,
   isInRange,
   range,
+  onDoubleClick,
   onCalendarDayClick,
 }: ICalendarDayProps) => {
   const handleClick = () => {
@@ -29,9 +31,16 @@ export const CalendarDay = ({
     }
   };
 
+  const handleDoubleClick = () => {
+    if (!isDisabled) {
+      onDoubleClick()();
+    }
+  };
+
   return (
     <StyledCalendarDay
       onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       $range={range}
       $isTarget={isTarget}
       $isHoliday={isHoliday}

@@ -1,12 +1,15 @@
+import { useState } from 'react';
+
 import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
 import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
 import { CalendarDay } from '@components/CalendarDay';
+import { TodoModal } from '@components/TodoModal';
 import {
   calendarMonth,
   fromMondayWeekDays,
   fromSundayWeekDays,
 } from '@constants/calendar';
-import { IDecoratedCalendarProps } from '@root/types/calendar';
+import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
 import { CalendarDecorator } from '@services/CalendarDecorator';
 
 import {
@@ -35,9 +38,17 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     currentCalendarDates,
     currentCalendarHeader,
     viewType,
+    targetDateItem,
     startDay,
     range,
   } = props;
+
+  const [isTodoModalVisible, setIdTodoModalVisible] = useState(false);
+
+  const onDoubleClick = () => () => {
+    setIdTodoModalVisible((prevState) => !prevState);
+    console.log('1')
+  };
 
   return (
     <StyledCalendar $isYearDisplay={viewType === 'year'}>
@@ -75,12 +86,14 @@ const Calendar = (props: IDecoratedCalendarProps) => {
                   isTarget={isTargetDay(date)}
                   isHoliday={checkIfHoliday ? checkIfHoliday(date) : null}
                   onCalendarDayClick={onCalendarDayClick}
+                  onDoubleClick={onDoubleClick}
                 />
               ))}
             </CalendarDays>
           </CalendarMonth>
         ))}
       </CalendarDisplay>
+      {isTodoModalVisible && <TodoModal dateItem={targetDateItem} />}
     </StyledCalendar>
   );
 };
