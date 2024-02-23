@@ -1,4 +1,4 @@
-import { useRef,useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
 import { InputField } from '@components/InputField';
@@ -60,7 +60,13 @@ export const DatePicker = (props: IDatePickerProps) => {
     setIsCalendarVisible(false);
   };
 
-  useOnClickOutside(pickerRef, closeCalendar);
+  useOnClickOutside(pickerRef, (e: MouseEvent | TouchEvent) => {
+    if (e.target instanceof HTMLElement) {
+      if (!e.target.closest('[data-modal]')) {
+        closeCalendar();
+      }
+    }
+  });
 
   return (
     <StylingWrapper>

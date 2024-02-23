@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef,useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ReactComponent as ClearIcon } from '@assets/images/delete.svg';
@@ -76,7 +76,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
   useOnClickOutside(modalRef, closeModal);
 
   return createPortal(
-    <StyledModal>
+    <StyledModal data-modal={true}>
       <ModalContent ref={modalRef}>
         <ModalTitle>Add Todo</ModalTitle>
         <TodoList>
