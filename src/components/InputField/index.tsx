@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
@@ -9,13 +9,16 @@ import {
   CalendarButton,
   ClearButton,
   DateInput,
+  FieldTitle,
+  InputContent,
   InputWrapper,
   ValidationText,
 } from './styled';
 
 interface InputFieldProps {
-  minValue: IDateItem;
-  maxValue: IDateItem;
+  label: string;
+  minValue: IDateItem | undefined;
+  maxValue: IDateItem | undefined;
   dateInputValue: string;
   isCalendarVisible: boolean;
   onCalendarIconClick: () => void;
@@ -30,6 +33,7 @@ export const InputField = memo(function InputField(props: InputFieldProps) {
     minValue,
     maxValue,
     setInputValue,
+    label,
   } = props;
 
   const inputValidationText = useMemo(() => {
@@ -48,23 +52,26 @@ export const InputField = memo(function InputField(props: InputFieldProps) {
 
   return (
     <InputWrapper>
-      <CalendarButton $isCalendarVisible={isCalendarVisible}>
-        <CalendarIcon onClick={onCalendarIconClick} />
-      </CalendarButton>
-      <DateInput
-        type="text"
-        value={dateInputValue}
-        onChange={onInputValueChange}
-        placeholder="Choose Date"
-      />
-      {inputValidationText && (
-        <ValidationText>{inputValidationText}</ValidationText>
-      )}
-      {dateInputValue && (
-        <ClearButton onClick={onClearButtonClick}>
-          <ClearIcon />
-        </ClearButton>
-      )}
+      <FieldTitle>{label}</FieldTitle>
+      <InputContent>
+        <CalendarButton $isCalendarVisible={isCalendarVisible}>
+          <CalendarIcon onClick={onCalendarIconClick} />
+        </CalendarButton>
+        <DateInput
+          type="text"
+          value={dateInputValue}
+          onChange={onInputValueChange}
+          placeholder="Choose Date"
+        />
+        {inputValidationText && (
+          <ValidationText>{inputValidationText}</ValidationText>
+        )}
+        {dateInputValue && (
+          <ClearButton onClick={onClearButtonClick}>
+            <ClearIcon />
+          </ClearButton>
+        )}
+      </InputContent>
     </InputWrapper>
   );
 });

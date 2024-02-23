@@ -7,8 +7,8 @@ export interface IDateItem {
 }
 
 export interface ICalendarProps {
-  maxValue?: IDateItem | null;
-  minValue?: IDateItem | null;
+  maxValue: IDateItem | undefined;
+  minValue: IDateItem | undefined;
   range: boolean;
   startDateInputValue: string;
   endDateInputValue: string;

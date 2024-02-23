@@ -6,13 +6,9 @@ interface ICalendarButton {
 }
 
 export const InputWrapper = styled.div`
-  ${FlexMixin({ align: 'center' })}
+  ${FlexMixin({ direction: 'column' })};
 
-  border: 1px solid ${({ theme }) => theme.color.border};
-  border-radius: ${({ theme }) => theme.borderRadius.md}px;
-  max-width: 250px;
-  padding: 13px 0 13px 16px;
-  position: relative;
+  margin-bottom: 15px;
 `;
 
 export const DateInput = styled.input`
@@ -25,6 +21,21 @@ export const DateInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.color.placeholder};
   }
+`;
+
+export const InputContent = styled.div`
+  ${FlexMixin({ align: 'center' })}
+
+  border: 1px solid ${({ theme }) => theme.color.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md}px;
+  max-width: 250px;
+  padding: 13px 0 13px 16px;
+  position: relative;
+`;
+
+export const FieldTitle = styled.h3`
+  font-size: ${({ theme }) => theme.fontSize.xl}px;
+  margin-bottom: 8px;
 `;
 
 export const CalendarButton = styled.button<ICalendarButton>`
@@ -64,5 +75,5 @@ export const ValidationText = styled.p`
   font-size: ${({ theme }) => theme.fontSize.xs}px;
   position: absolute;
   left: 15px;
-  top: -13px;
+  bottom: -13px;
 `;

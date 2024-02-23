@@ -1,4 +1,4 @@
-import { ComponentType, useState } from 'react';
+import { ComponentType, useCallback, useState } from 'react';
 
 import { IDecoratedCalendarProps } from '@root/types/calendar';
 
@@ -6,13 +6,13 @@ export const WithTodos = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
   const WithTodosComponent = (props: IDecoratedCalendarProps) => {
     const [isTodoModalVisible, setIdTodoModalVisible] = useState(false);
 
-    const toggleTodoModal = () => {
+    const toggleTodoModal = useCallback(() => {
       setIdTodoModalVisible((prevState) => !prevState);
-    };
+    }, []);
 
-    const closeTodoModal = () => {
+    const closeTodoModal = useCallback(() => {
       setIdTodoModalVisible(false);
-    };
+    }, []);
 
     return (
       <Calendar

@@ -47,7 +47,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     toggleTodoModal,
     closeTodoModal,
   } = props;
-
+  
   return (
     <StyledCalendar $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
       <CalendarControls>

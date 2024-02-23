@@ -1,4 +1,4 @@
-import { ComponentType, useCallback, useEffect, useState } from 'react';
+import { ComponentType, useCallback, useMemo, useState } from 'react';
 
 import {
   CalendarStartDaysEnum,
@@ -67,17 +67,10 @@ export const WithViewLogic = (
       syncDateWithState(startDateInputValue),
     );
 
-    const [endDateValue, setEndDateValue] = useState<IDateValueState>(
-      syncDateWithState(endDateInputValue),
+    const endDateValue = useMemo(
+      () => syncDateWithState(endDateInputValue),
+      [endDateInputValue, syncDateWithState],
     );
-
-    useEffect(() => {
-      setStartDateValue(syncDateWithState(startDateInputValue));
-    }, [startDateInputValue, syncDateWithState]);
-
-    useEffect(() => {
-      setEndDateValue(syncDateWithState(endDateInputValue));
-    }, [endDateInputValue, syncDateWithState]);
 
     const startDayIndex = startDay === CalendarStartDaysEnum.monday ? 1 : 0;
 
@@ -215,9 +208,7 @@ export const WithViewLogic = (
         (maxValue &&
           isDateAfter(currentDate, parseDateItemIntoDate(maxValue))) ||
         (viewType !== CalendarViewTypesEnum.year &&
-          date.month !== startDateValue.month) ||
-        date.month !== startDateValue.month ||
-        date.year !== startDateValue.year
+          date.month !== startDateValue.month)
       ) {
         return true;
       }
@@ -240,25 +231,33 @@ export const WithViewLogic = (
       return false;
     };
 
-    const onRangeCalendarDayClick = (date: IDateItem) => () => {
-      const selectedDate = parseDateItemIntoDate(date);
-      const { target: startDate } = startDateValue;
-      const { target: endDate } = endDateValue;
+    const onRangeCalendarDayClick = useCallback(
+      (date: IDateItem) => () => {
+        const selectedDate = parseDateItemIntoDate(date);
+        const { target: startDate } = startDateValue;
+        const { target: endDate } = endDateValue;
 
-      if (!startDate || (startDate && endDate)) {
-        changeDateInputValue(date, DateInputTypesEnum.start);
-        changeDateInputValue(null, DateInputTypesEnum.end);
-      } else if (isDateAfter(selectedDate, parseDateItemIntoDate(startDate))) {
-        changeDateInputValue(date, DateInputTypesEnum.end);
-      } else {
-        changeDateInputValue(date, DateInputTypesEnum.start);
-        changeDateInputValue(startDate, DateInputTypesEnum.end);
-      }
-    };
+        if (!startDate || (startDate && endDate)) {
+          changeDateInputValue(date, DateInputTypesEnum.start);
+          changeDateInputValue(null, DateInputTypesEnum.end);
+        } else if (
+          isDateAfter(selectedDate, parseDateItemIntoDate(startDate))
+        ) {
+          changeDateInputValue(date, DateInputTypesEnum.end);
+        } else {
+          changeDateInputValue(date, DateInputTypesEnum.start);
+          changeDateInputValue(startDate, DateInputTypesEnum.end);
+        }
+      },
+      [changeDateInputValue, endDateValue, startDateValue],
+    );
 
-    const onCalendarDayClick = (date: IDateItem) => () => {
-      changeDateInputValue(date, DateInputTypesEnum.start);
-    };
+    const onCalendarDayClick = useCallback(
+      (date: IDateItem) => () => {
+        changeDateInputValue(date, DateInputTypesEnum.start);
+      },
+      [changeDateInputValue],
+    );
 
     return (
       <Calendar
