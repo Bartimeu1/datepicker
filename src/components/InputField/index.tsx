@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
 
 import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
@@ -22,7 +22,7 @@ interface InputFieldProps {
   setInputValue: (value: string) => void;
 }
 
-export const InputField = (props: InputFieldProps) => {
+export const InputField = memo(function InputField(props: InputFieldProps) {
   const {
     isCalendarVisible,
     dateInputValue,
@@ -67,4 +67,4 @@ export const InputField = (props: InputFieldProps) => {
       )}
     </InputWrapper>
   );
-};
+});

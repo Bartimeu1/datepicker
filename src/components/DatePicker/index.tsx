@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
 import { InputField } from '@components/InputField';
@@ -32,9 +32,9 @@ export const DatePicker = (props: IDatePickerProps) => {
   const [endDateInputValue, setEndDateInputValue] = useState('');
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
-  const onCalendarIconClick = () => {
+  const onCalendarIconClick = useCallback(() => {
     setIsCalendarVisible((prevState) => !prevState);
-  };
+  }, []);
 
   const changeDateInputValue = (
     dateItem: IDateItem | null,
