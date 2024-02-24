@@ -9,7 +9,6 @@ import {
 } from '@root/types/calendar';
 import {
   formatMonthYear,
-  generateNewDateItem,
   getCalendarDates,
   getNextMonth,
   getPreviousMonth,
@@ -17,7 +16,7 @@ import {
   getYearCalendarDates,
 } from '@utils/calendar';
 import { isDateAfter, parseDateItemIntoDate } from '@utils/date';
-import { formatInputToDateItem, validateInputValue } from '@utils/input';
+import { syncInputWithState } from '@utils/helpers';
 
 interface IDateValueState {
   target: IDateItem | null;
@@ -31,48 +30,22 @@ export const WithViewLogic = (
 ) => {
   const WithViewComponent = (props: IDecoratedCalendarProps) => {
     const {
-      startDateInputValue,
-      endDateInputValue,
       changeDateInputValue,
+      startDateInputValue,
       viewType,
       startDay,
       minValue,
       maxValue,
-      range,
     } = props;
 
-    const syncDateWithState = useCallback(
-      (inputValue: string) => {
-        const isInputValueValid = !validateInputValue(
-          inputValue,
-          minValue,
-          maxValue,
-        );
-        const inputDate = formatInputToDateItem(inputValue);
-        const chosenDate = isInputValueValid
-          ? inputDate
-          : generateNewDateItem();
-
-        return {
-          target: isInputValueValid ? inputDate : null,
-          week: chosenDate.week,
-          month: chosenDate.month,
-          year: chosenDate.year,
-        };
-      },
-      [maxValue, minValue],
-    );
-
     const [startDateValue, setStartDateValue] = useState<IDateValueState>(
-      syncDateWithState(startDateInputValue),
+      syncInputWithState(startDateInputValue, minValue, maxValue),
     );
 
-    const endDateValue = useMemo(
-      () => syncDateWithState(endDateInputValue),
-      [endDateInputValue, syncDateWithState],
+    const startDayIndex = useMemo(
+      () => (startDay === CalendarStartDaysEnum.monday ? 1 : 0),
+      [startDay],
     );
-
-    const startDayIndex = startDay === CalendarStartDaysEnum.monday ? 1 : 0;
 
     const getCurrentCalendarDates = () => {
       const { month, year, week } = startDateValue;
@@ -180,25 +153,6 @@ export const WithViewLogic = (
       return false;
     };
 
-    const isTargetEnd = (date: IDateItem) => {
-      const { target: targetDate } = endDateValue;
-
-      if (targetDate) {
-        const { day, month, year } = date;
-        const {
-          day: targetDay,
-          month: targetMonth,
-          year: targetYear,
-        } = targetDate;
-
-        return (
-          month === targetMonth && day === targetDay && year === targetYear
-        );
-      }
-
-      return false;
-    };
-
     const isCalendarDayDisabled = (date: IDateItem) => {
       const currentDate = parseDateItemIntoDate(date);
 
@@ -216,42 +170,6 @@ export const WithViewLogic = (
       return false;
     };
 
-    const isDayInRange = (date: IDateItem) => {
-      const { target: startDayTarget } = startDateValue;
-      const { target: endDayTarget } = endDateValue;
-
-      if (startDayTarget && endDayTarget) {
-        const currentDate = parseDateItemIntoDate(date);
-        const startDate = parseDateItemIntoDate(startDayTarget);
-        const endDate = parseDateItemIntoDate(endDayTarget);
-
-        return currentDate > startDate && currentDate < endDate;
-      }
-
-      return false;
-    };
-
-    const onRangeCalendarDayClick = useCallback(
-      (date: IDateItem) => () => {
-        const selectedDate = parseDateItemIntoDate(date);
-        const { target: startDate } = startDateValue;
-        const { target: endDate } = endDateValue;
-
-        if (!startDate || (startDate && endDate)) {
-          changeDateInputValue(date, DateInputTypesEnum.start);
-          changeDateInputValue(null, DateInputTypesEnum.end);
-        } else if (
-          isDateAfter(selectedDate, parseDateItemIntoDate(startDate))
-        ) {
-          changeDateInputValue(date, DateInputTypesEnum.end);
-        } else {
-          changeDateInputValue(date, DateInputTypesEnum.start);
-          changeDateInputValue(startDate, DateInputTypesEnum.end);
-        }
-      },
-      [changeDateInputValue, endDateValue, startDateValue],
-    );
-
     const onCalendarDayClick = useCallback(
       (date: IDateItem) => () => {
         changeDateInputValue(date, DateInputTypesEnum.start);
@@ -267,13 +185,9 @@ export const WithViewLogic = (
         onPrevButtonClick={onPrevButtonClick}
         onNextButtonClick={onNextButtonClick}
         isTargetDay={isCalendarDayTarget}
-        isDayInRange={isDayInRange}
-        isTargetEndDay={isTargetEnd}
         isDayDisabled={isCalendarDayDisabled}
         targetDateItem={startDateValue.target}
-        onCalendarDayClick={
-          range ? onRangeCalendarDayClick : onCalendarDayClick
-        }
+        onCalendarDayClick={onCalendarDayClick}
       />
     );
   };

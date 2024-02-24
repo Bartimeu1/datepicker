@@ -33,8 +33,9 @@ export interface IDecoratedCalendarProps extends ICalendarProps {
   onNextButtonClick: () => void;
   isTargetDay: (date: IDateItem) => boolean;
   isTargetEndDay: (date: IDateItem) => boolean;
-  isDayDisabled: (date: IDateItem) => boolean;
   isDayInRange: (date: IDateItem) => boolean;
+  isDayDisabled: (date: IDateItem) => boolean;
+  onRangeCalendarDayClick: (date: IDateItem) => () => void;
   toggleTodoModal: () => void;
   closeTodoModal: () => void;
   isTodoModalVisible: boolean;

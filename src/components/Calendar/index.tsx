@@ -30,6 +30,7 @@ import {
 const Calendar = (props: IDecoratedCalendarProps) => {
   const {
     onCalendarDayClick,
+    onRangeCalendarDayClick,
     isDayDisabled,
     isTargetDay,
     isTargetEndDay,
@@ -47,7 +48,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     toggleTodoModal,
     closeTodoModal,
   } = props;
-  
+
   return (
     <StyledCalendar $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
       <CalendarControls>
@@ -79,12 +80,14 @@ const Calendar = (props: IDecoratedCalendarProps) => {
                   key={date.id}
                   range={range}
                   date={date}
-                  isTargetEnd={isTargetEndDay(date)}
+                  isTargetEnd={range && (isTargetEndDay(date) || false)}
+                  isInRange={range && (isDayInRange(date) || false)}
                   isDisabled={isDayDisabled(date)}
-                  isInRange={isDayInRange(date)}
                   isTarget={isTargetDay(date)}
                   isHoliday={checkIfHoliday ? checkIfHoliday(date) : null}
-                  onCalendarDayClick={onCalendarDayClick}
+                  onCalendarDayClick={
+                    range ? onRangeCalendarDayClick : onCalendarDayClick
+                  }
                   toggleTodoModal={toggleTodoModal}
                 />
               ))}
