@@ -5,7 +5,7 @@ import {
   lowerValidationText,
 } from '@constants/text';
 import { IDateItem } from '@root/types/calendar';
-import { parseDateItemIntoDate,parseInputValueIntoDate } from '@utils/date';
+import { parseDateItemIntoDate, parseInputValueIntoDate } from '@utils/date';
 
 export const formatDateItemToInput = (dateItem: IDateItem) => {
   const dayString = dateItem.day.toString().padStart(2, '0');
@@ -41,11 +41,11 @@ export const validateInputValue = (
   const selectedDate = parseInputValueIntoDate(inputValue);
 
   if (minDateItem && selectedDate < parseDateItemIntoDate(minDateItem)) {
-    return `${lowerValidationText} ${formatDateItemToInput(minDateItem)}`;
+    return `${greaterValidationText} ${formatDateItemToInput(minDateItem)}`;
   }
 
   if (maxDateItem && selectedDate > parseDateItemIntoDate(maxDateItem)) {
-    return `${greaterValidationText} ${formatDateItemToInput(maxDateItem)}`;
+    return `${lowerValidationText} ${formatDateItemToInput(maxDateItem)}`;
   }
 
   return '';
