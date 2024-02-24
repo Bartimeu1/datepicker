@@ -11,7 +11,7 @@ import {
   DateInputTypesEnum,
   IDateItem,
 } from '@root/types/calendar';
-import { formatDateItemToInput } from '@utils/input';
+import { formatDateItemToInput } from '@root/utils/formatting';
 
 import { StyledDatePicker } from './styled';
 import { IDatePickerProps } from './types';

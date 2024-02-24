@@ -2,8 +2,7 @@ import React, { memo, useMemo } from 'react';
 
 import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
 import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
-import { IDateItem } from '@root/types/calendar';
-import { validateInputValue } from '@utils/input';
+import { validateInputValue } from '@root/utils/formatting';
 
 import {
   CalendarButton,
@@ -14,18 +13,9 @@ import {
   InputWrapper,
   ValidationText,
 } from './styled';
+import { IInputFieldProps } from './types';
 
-interface InputFieldProps {
-  label: string;
-  minValue: IDateItem | undefined;
-  maxValue: IDateItem | undefined;
-  dateInputValue: string;
-  isCalendarVisible: boolean;
-  onCalendarIconClick: () => void;
-  setInputValue: (value: string) => void;
-}
-
-export const InputField = memo(function InputField(props: InputFieldProps) {
+export const InputField = memo(function InputField(props: IInputFieldProps) {
   const {
     isCalendarVisible,
     dateInputValue,

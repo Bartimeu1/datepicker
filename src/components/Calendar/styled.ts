@@ -1,9 +1,7 @@
 import { FlexMixin } from '@root/GlobalStyles';
 import styled from 'styled-components';
 
-interface IStyledCalendar {
-  $isYearDisplay: boolean;
-}
+import { IStyledCalendar } from './types';
 
 export const StyledCalendar = styled.div<IStyledCalendar>`
   border: 1px solid ${({ theme }) => theme.color.border};

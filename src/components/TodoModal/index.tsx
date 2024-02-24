@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 
 import { ReactComponent as ClearIcon } from '@assets/images/delete.svg';
 import { useOnClickOutside } from '@root/hooks';
-import { IDateItem } from '@root/types/calendar';
 import { v1 as uuidv1 } from 'uuid';
 
 import {
@@ -18,16 +17,7 @@ import {
   TodoItemText,
   TodoList,
 } from './styled';
-
-interface ITodoModalProps {
-  dateItem: IDateItem | null;
-  closeModal: () => void;
-}
-
-interface ITodoItem {
-  id: string;
-  value: string;
-}
+import { ITodoItem,ITodoModalProps } from './types';
 
 export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
   const modalRef = useRef(null);

@@ -1,10 +1,9 @@
-import { ComponentType, useMemo, useCallback } from 'react';
+import { ComponentType, useCallback, useMemo } from 'react';
 
-import { IDecoratedCalendarProps, IDateItem } from '@root/types/calendar';
-
-import { syncInputWithDateItem } from '@utils/helpers';
-import { parseDateItemIntoDate, isDateAfter } from '@root/utils/date';
+import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
 import { DateInputTypesEnum } from '@root/types/calendar';
+import { isDateAfter, parseDateItemIntoDate } from '@root/utils/date';
+import { syncInputWithDateItem } from '@utils/helpers';
 
 export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
   const WithRangeComponent = (props: IDecoratedCalendarProps) => {
@@ -18,12 +17,12 @@ export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
 
     const targetStartDate = useMemo(
       () => syncInputWithDateItem(startDateInputValue, minValue, maxValue),
-      [startDateInputValue, syncInputWithDateItem],
+      [startDateInputValue, minValue, maxValue],
     );
 
     const targetEndDate = useMemo(
       () => syncInputWithDateItem(endDateInputValue, minValue, maxValue),
-      [endDateInputValue, syncInputWithDateItem],
+      [endDateInputValue, minValue, maxValue],
     );
 
     const isTargetEnd = (date: IDateItem) => {

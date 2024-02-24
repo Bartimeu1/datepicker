@@ -1,6 +1,6 @@
-import { validateInputValue, formatInputToDateItem } from '@utils/input';
-import { generateNewDateItem } from '@utils/calendar';
 import { IDateItem } from '@root/types/calendar';
+import { formatInputToDateItem,validateInputValue } from '@root/utils/formatting';
+import { generateNewDateItem } from '@utils/calendar';
 
 export const syncInputWithDateItem = (
   inputValue: string,

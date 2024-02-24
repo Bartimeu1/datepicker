@@ -1,9 +1,7 @@
 import { FlexMixin } from '@root/GlobalStyles';
 import styled from 'styled-components';
 
-interface ICalendarButton {
-  $isCalendarVisible: boolean;
-}
+import { ICalendarButton } from './types';
 
 export const InputWrapper = styled.div`
   ${FlexMixin({ direction: 'column' })};

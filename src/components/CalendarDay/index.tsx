@@ -1,20 +1,7 @@
 import { memo } from 'react';
 
-import { IDateItem } from '@root/types/calendar';
-
 import { StyledCalendarDay } from './styled';
-
-interface ICalendarDayProps {
-  isDisabled: boolean;
-  isTarget: boolean;
-  range: boolean;
-  isTargetEnd: boolean | null;
-  isHoliday: boolean | null;
-  isInRange: boolean;
-  toggleTodoModal: () => void;
-  date: IDateItem;
-  onCalendarDayClick: (date: IDateItem) => () => void;
-}
+import { ICalendarDayProps } from './types';
 
 export const CalendarDay = memo(function CalendarDay({
   date,

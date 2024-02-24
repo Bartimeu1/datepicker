@@ -1,14 +1,7 @@
 import { FlexMixin } from '@root/GlobalStyles';
 import styled, { css } from 'styled-components';
 
-interface IStyledCalendarDay {
-  $isDisabled: boolean;
-  $isTarget: boolean;
-  $range: boolean;
-  $isInRange: boolean;
-  $isTargetEnd: boolean | null;
-  $isHoliday: boolean | null;
-}
+import { IStyledCalendarDay } from './types';
 
 export const StyledCalendarDay = styled.div<IStyledCalendarDay>`
   ${FlexMixin({ align: 'center', justify: 'center' })};
