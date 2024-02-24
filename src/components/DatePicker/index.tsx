@@ -1,4 +1,4 @@
-import { useCallback,useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
 import { InputField } from '@components/InputField';
@@ -19,7 +19,7 @@ import { IDatePickerProps } from './types';
 export const DatePicker = (props: IDatePickerProps) => {
   const {
     holidays = false,
-    todos = true,
+    todos = false,
     range = false,
     minValue,
     maxValue,

@@ -7,9 +7,9 @@ import {
 export interface IDatePickerProps {
   maxValue?: IDateItem;
   minValue?: IDateItem;
-  range: boolean;
-  holidays: boolean;
-  todos: boolean;
-  viewType: LiteralViewTypes;
-  startDay: LiteralStartDays;
+  range?: boolean;
+  holidays?: boolean;
+  todos?: boolean;
+  viewType?: LiteralViewTypes;
+  startDay?: LiteralStartDays;
 }
