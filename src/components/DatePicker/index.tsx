@@ -1,5 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
+import { ErrorBoundary } from '@components/ErrorBoundary';
+
 import { DecoratedCalendar } from '@components/Calendar';
 import { InputField } from '@components/InputField';
 import { StylingWrapper } from '@components/StylingWrapper';
@@ -72,36 +74,38 @@ export const DatePicker = (props: IDatePickerProps) => {
 
   return (
     <StylingWrapper>
-      <StyledDatePicker ref={pickerRef}>
-        <InputField
-          label={startInputLabel}
-          setInputValue={setStartDateInputValue}
-          dateInputValue={startDateInputValue}
-          {...inputFieldProps}
-        />
-        {range && (
+      <ErrorBoundary>
+        <StyledDatePicker ref={pickerRef}>
           <InputField
-            label={'To'}
-            setInputValue={setEndDateInputValue}
-            dateInputValue={endDateInputValue}
+            label={startInputLabel}
+            setInputValue={setStartDateInputValue}
+            dateInputValue={startDateInputValue}
             {...inputFieldProps}
           />
-        )}
-        {isCalendarVisible && (
-          <DecoratedCalendar
-            startDateInputValue={startDateInputValue}
-            endDateInputValue={endDateInputValue}
-            changeDateInputValue={changeDateInputValue}
-            holidays={holidays}
-            todos={todos}
-            range={range}
-            viewType={viewType}
-            startDay={startDay}
-            minValue={minValue}
-            maxValue={maxValue}
-          />
-        )}
-      </StyledDatePicker>
+          {range && (
+            <InputField
+              label={'To'}
+              setInputValue={setEndDateInputValue}
+              dateInputValue={endDateInputValue}
+              {...inputFieldProps}
+            />
+          )}
+          {isCalendarVisible && (
+            <DecoratedCalendar
+              startDateInputValue={startDateInputValue}
+              endDateInputValue={endDateInputValue}
+              changeDateInputValue={changeDateInputValue}
+              holidays={holidays}
+              todos={todos}
+              range={range}
+              viewType={viewType}
+              startDay={startDay}
+              minValue={minValue}
+              maxValue={maxValue}
+            />
+          )}
+        </StyledDatePicker>
+      </ErrorBoundary>
     </StylingWrapper>
   );
 };
