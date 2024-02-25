@@ -1,4 +1,4 @@
-import { dateRegex } from '@constants/calendar';
+import { dateRegex, daysInWeek } from '@constants/calendar';
 import {
   formatValidationText,
   greaterValidationText,
@@ -19,7 +19,7 @@ export const formatInputToDateItem = (inputDate: string) => {
   const day = Number(dayStr);
   const month = Number(monthStr);
   const year = Number(yearStr);
-  const week = Math.floor(day / 7);
+  const week = Math.floor(day / daysInWeek);
 
   return {
     day,

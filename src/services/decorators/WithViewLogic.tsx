@@ -8,6 +8,11 @@ import {
   IDecoratedCalendarProps,
 } from '@root/types/calendar';
 import {
+  mondayCalendarIndex,
+  sundayCalendarIndex,
+  weeksInMonth,
+} from '@constants/calendar';
+import {
   formatMonthYear,
   getCalendarDates,
   getNextMonth,
@@ -43,7 +48,10 @@ export const WithViewLogic = (
     );
 
     const startDayIndex = useMemo(
-      () => (startDay === CalendarStartDaysEnum.monday ? 1 : 0),
+      () =>
+        startDay === CalendarStartDaysEnum.monday
+          ? mondayCalendarIndex
+          : sundayCalendarIndex,
       [startDay],
     );
 
@@ -80,7 +88,7 @@ export const WithViewLogic = (
       let newYear = year;
 
       if (viewType === CalendarViewTypesEnum.week) {
-        newWeek = week === 0 ? 4 : week - 1;
+        newWeek = week === 0 ? weeksInMonth : week - 1;
         if (!newWeek) {
           newMonth = previousMonth.month;
           newYear = previousMonth.year;
@@ -112,7 +120,7 @@ export const WithViewLogic = (
       let newYear = year;
 
       if (viewType === CalendarViewTypesEnum.week) {
-        newWeek = week === 4 ? 0 : week + 1;
+        newWeek = week === weeksInMonth ? 0 : week + 1;
         if (!newWeek) {
           newMonth = nextMonth.month;
           newYear = nextMonth.year;

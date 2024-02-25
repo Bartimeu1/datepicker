@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
 import { InputField } from '@components/InputField';
@@ -68,11 +68,13 @@ export const DatePicker = (props: IDatePickerProps) => {
     }
   });
 
+  const startInputLabel = useMemo(() => (range ? 'From' : 'Date'), [range]);
+
   return (
     <StylingWrapper>
       <StyledDatePicker ref={pickerRef}>
         <InputField
-          label={range ? 'From' : 'Date'}
+          label={startInputLabel}
           setInputValue={setStartDateInputValue}
           dateInputValue={startDateInputValue}
           {...inputFieldProps}

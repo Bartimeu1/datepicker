@@ -26,6 +26,7 @@ import {
   StyledCalendar,
   WeekdayName,
 } from './styled';
+import { useMemo } from 'react';
 
 const Calendar = (props: IDecoratedCalendarProps) => {
   const {
@@ -48,6 +49,14 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     toggleTodoModal,
     closeTodoModal,
   } = props;
+
+  const calendarWeekDays = useMemo(
+    () =>
+      startDay === CalendarStartDaysEnum.monday
+        ? fromMondayWeekDays
+        : fromSundayWeekDays,
+    [startDay],
+  );
 
   return (
     <StyledCalendar
@@ -75,11 +84,8 @@ const Calendar = (props: IDecoratedCalendarProps) => {
               <MonthTitle>{calendarMonth[index].fullName}</MonthTitle>
             )}
             <CalendarWeeks>
-              {(startDay === CalendarStartDaysEnum.monday
-                ? fromMondayWeekDays
-                : fromSundayWeekDays
-              ).map((week) => (
-                <WeekdayName key={week.id}>{week.shortName}</WeekdayName>
+              {calendarWeekDays.map(({ id, shortName }) => (
+                <WeekdayName key={id}>{shortName}</WeekdayName>
               ))}
             </CalendarWeeks>
             <CalendarDays>
