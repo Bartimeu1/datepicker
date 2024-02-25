@@ -10,6 +10,7 @@ export const StyledCalendarDay = styled.div<IStyledCalendarDay>`
   cursor: pointer;
   flex: 0 0 14%;
   height: 32px;
+  min-width: 32px;
 
   ${({ $isDisabled }) => $isDisabled && disabledStyles};
   ${({ $isHoliday }) => $isHoliday && holidayStyles};
