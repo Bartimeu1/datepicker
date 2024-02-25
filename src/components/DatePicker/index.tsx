@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-import { ErrorBoundary } from '@components/ErrorBoundary';
-
 import { DecoratedCalendar } from '@components/Calendar';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 import { InputField } from '@components/InputField';
 import { StylingWrapper } from '@components/StylingWrapper';
 import { useOnClickOutside } from '@root/hooks';

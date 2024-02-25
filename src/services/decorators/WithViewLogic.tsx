@@ -1,17 +1,17 @@
 import { ComponentType, useCallback, useMemo, useState } from 'react';
 
 import {
+  mondayCalendarIndex,
+  sundayCalendarIndex,
+  weeksInMonth,
+} from '@constants/calendar';
+import {
   CalendarStartDaysEnum,
   CalendarViewTypesEnum,
   DateInputTypesEnum,
   IDateItem,
   IDecoratedCalendarProps,
 } from '@root/types/calendar';
-import {
-  mondayCalendarIndex,
-  sundayCalendarIndex,
-  weeksInMonth,
-} from '@constants/calendar';
 import {
   formatMonthYear,
   getCalendarDates,

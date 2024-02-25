@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
 import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
 import { CalendarDay } from '@components/CalendarDay';
@@ -26,7 +28,6 @@ import {
   StyledCalendar,
   WeekdayName,
 } from './styled';
-import { useMemo } from 'react';
 
 const Calendar = (props: IDecoratedCalendarProps) => {
   const {

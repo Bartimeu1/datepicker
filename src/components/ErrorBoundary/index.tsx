@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import { boundaryText } from '@constants/text';
-
 import boundaryImage from '@assets/images/boundary.png';
+import { boundaryText } from '@constants/text';
 
 import { Boundary, BoundaryImage, BoundaryText } from './styled';
 
