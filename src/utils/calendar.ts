@@ -68,7 +68,9 @@ export const getCalendarDates = (
   startDayIndex: number,
 ) => {
   const currentMonthFirstDay = getFirstDayOfMonth(year, month) + 1;
-  const daysFromPrevMonth = currentMonthFirstDay - startDayIndex - 1;
+  let daysFromPrevMonth = currentMonthFirstDay - startDayIndex - 1;
+
+  daysFromPrevMonth = daysFromPrevMonth < 0 ? calendarWeeks : daysFromPrevMonth;
 
   const currentMonthDays = getDaysInMonth(year, month);
   const nextMonthDays =
