@@ -1,0 +1,8 @@
+{
+  "./src/**/**/*.{ts,tsx}": [
+    "prettier --write",
+    "yarn run lint:fix",
+    "yarn run test:unit",
+    "git add"
+  ]
+}
