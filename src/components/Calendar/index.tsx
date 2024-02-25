@@ -50,19 +50,27 @@ const Calendar = (props: IDecoratedCalendarProps) => {
   } = props;
 
   return (
-    <StyledCalendar $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
+    <StyledCalendar
+      data-testid="calendar"
+      $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
       <CalendarControls>
-        <ControlsButton onClick={onPrevButtonClick}>
+        <ControlsButton
+          onClick={onPrevButtonClick}
+          data-testid="calendar-prev-button">
           <ChevronPrev />
         </ControlsButton>
-        <CalendarHeader>{currentCalendarHeader}</CalendarHeader>
-        <ControlsButton onClick={onNextButtonClick}>
+        <CalendarHeader data-testid="calendar-header">
+          {currentCalendarHeader}
+        </CalendarHeader>
+        <ControlsButton
+          onClick={onNextButtonClick}
+          data-testid="calendar-next-button">
           <ChevronNext />
         </ControlsButton>
       </CalendarControls>
       <CalendarDisplay $isYearDisplay={viewType === CalendarViewTypesEnum.year}>
         {currentCalendarDates.map((month, index) => (
-          <CalendarMonth key={index}>
+          <CalendarMonth key={index} data-testid="calendar-month">
             {viewType === CalendarViewTypesEnum.year && (
               <MonthTitle>{calendarMonth[index].fullName}</MonthTitle>
             )}

@@ -17,7 +17,7 @@ import {
   TodoItemText,
   TodoList,
 } from './styled';
-import { ITodoItem,ITodoModalProps } from './types';
+import { ITodoItem, ITodoModalProps } from './types';
 
 export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
   const modalRef = useRef(null);
@@ -67,25 +67,33 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
 
   return createPortal(
     <StyledModal data-modal={true}>
-      <ModalContent ref={modalRef}>
+      <ModalContent ref={modalRef} data-testid="todo-modal">
         <ModalTitle>Add Todo</ModalTitle>
-        <TodoList>
+        <TodoList data-testid="todo-list">
           {todoItems.map(({ id, value }) => (
             <TodoItem key={id}>
               <TodoItemText>{value}</TodoItemText>
-              <ClearIcon onClick={deleteTodo(id)} />
+              <ClearIcon
+                onClick={deleteTodo(id)}
+                data-testid="todo-clear-button"
+              />
             </TodoItem>
           ))}
         </TodoList>
         <ModalInput
+          data-testid="todo-input"
           type="text"
           placeholder="Enter your task..."
           value={inputValue}
           onChange={onInputValueChange}
         />
         <ModalControls>
-          <AddButton onClick={addTodo}>Accept</AddButton>
-          <ClearButton onClick={closeModal}>Cancel</ClearButton>
+          <AddButton onClick={addTodo} data-testid="todo-accept-button">
+            Accept
+          </AddButton>
+          <ClearButton onClick={closeModal} data-testid="todo-cancel-button">
+            Cancel
+          </ClearButton>
         </ModalControls>
       </ModalContent>
     </StyledModal>,

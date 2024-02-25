@@ -28,6 +28,7 @@ export const CalendarDay = memo(function CalendarDay({
 
   return (
     <StyledCalendarDay
+      data-testid="calendar-day"
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       $range={range}

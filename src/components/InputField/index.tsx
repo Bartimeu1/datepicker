@@ -44,20 +44,28 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
     <InputWrapper>
       <FieldTitle>{label}</FieldTitle>
       <InputContent>
-        <CalendarButton $isCalendarVisible={isCalendarVisible}>
-          <CalendarIcon onClick={onCalendarIconClick} />
+        <CalendarButton
+          onClick={onCalendarIconClick}
+          data-testid="open-calendar-button"
+          $isCalendarVisible={isCalendarVisible}>
+          <CalendarIcon />
         </CalendarButton>
         <DateInput
+          data-testid="date-input"
           type="text"
           value={dateInputValue}
           onChange={onInputValueChange}
           placeholder="Choose Date"
         />
         {inputValidationText && (
-          <ValidationText>{inputValidationText}</ValidationText>
+          <ValidationText data-testid="validation-text">
+            {inputValidationText}
+          </ValidationText>
         )}
         {dateInputValue && (
-          <ClearButton onClick={onClearButtonClick}>
+          <ClearButton
+            onClick={onClearButtonClick}
+            data-testid="clear-input-button">
             <ClearIcon />
           </ClearButton>
         )}
