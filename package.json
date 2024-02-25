@@ -1,5 +1,5 @@
 {
-  "name": "datepicker",
+  "name": "react-datepicker-light",
   "version": "1.0.0",
   "license": "MIT",
   "main": "dist/cjs/index.js",
