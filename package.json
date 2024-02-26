@@ -13,9 +13,6 @@
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": "18.16.0"
-  },
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "start": "rollup -c -w --bundleConfigAsCjs",
