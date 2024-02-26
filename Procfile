@@ -1,1 +1,1 @@
-worker: npm install && npm run build 
+worker: yarn run build-sb
