@@ -9,6 +9,7 @@ import svgr from '@svgr/rollup';
 import path from 'path';
 import dts from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+
 import { main, module, types } from './package.json';
 
 const projectRootDir = path.resolve(__dirname);

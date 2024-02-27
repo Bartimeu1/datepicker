@@ -6,7 +6,13 @@
   "module": "dist/esm/index.js",
   "types": "dist/types.d.ts",
   "type": "module",
-  "keywords": ["react", "datepicker", "calendar", "date", "react-component"],
+  "keywords": [
+    "react",
+    "datepicker",
+    "calendar",
+    "date",
+    "react-component"
+  ],
   "repository": {
     "url": "https://github.com/Bartimeu1/datepicker"
   },
