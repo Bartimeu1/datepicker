@@ -9,8 +9,8 @@ import svgr from '@svgr/rollup';
 import path from 'path';
 import dts from 'rollup-plugin-dts';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import { main, module, types } from './package.json';
 
-const packageJson = require('./package.json');
 const projectRootDir = path.resolve(__dirname);
 
 export default [
@@ -18,11 +18,11 @@ export default [
     input: 'src/index.ts',
     output: [
       {
-        file: packageJson.main,
+        file: main,
         format: 'cjs',
       },
       {
-        file: packageJson.module,
+        file: module,
         format: 'esm',
       },
     ],
@@ -53,7 +53,7 @@ export default [
   },
   {
     input: 'src/index.ts',
-    output: [{ file: packageJson.types, format: 'es' }],
+    output: [{ file: types, format: 'es' }],
     plugins: [dts.default()],
   },
 ];
