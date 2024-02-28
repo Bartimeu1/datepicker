@@ -3,6 +3,10 @@ import styled, { css } from 'styled-components';
 
 import { IStyledCalendarDay } from './types';
 
+export const CalendarDayWrapper = styled.div`
+  position: relative;
+`;
+
 export const StyledCalendarDay = styled.div<IStyledCalendarDay>`
   ${FlexMixin({ align: 'center', justify: 'center' })};
 

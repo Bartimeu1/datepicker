@@ -46,6 +46,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     targetDateItem,
     startDay,
     range,
+    todos,
     isTodoModalVisible,
     toggleTodoModal,
     closeTodoModal,
@@ -93,6 +94,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
               {month.map((date) => (
                 <CalendarDay
                   key={date.id}
+                  todos={todos}
                   range={range}
                   date={date}
                   isTargetEnd={range && (isTargetEndDay(date) || false)}
