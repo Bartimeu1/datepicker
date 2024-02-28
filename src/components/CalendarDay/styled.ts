@@ -35,7 +35,7 @@ const holidayStyles = css`
 `;
 
 const inRangeStyles = css`
-  background-color: rgba(47, 128, 237, 0.1);
+  background-color: ${({ theme }) => theme.color.insideRange};
   color: ${({ theme }) => theme.color.selected};
 `;
 
@@ -53,7 +53,7 @@ const targetStyles = css`
 `;
 
 const rangeStyles = css`
-  background-color: rgba(47, 128, 237, 0.6);
+  background-color: ${({ theme }) => theme.color.range};
   color: ${({ theme }) => theme.color.white};
   border-radius: ${({ theme }) => theme.borderRadius.md}px 0 0
     ${({ theme }) => theme.borderRadius.md}px;
