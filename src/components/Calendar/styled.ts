@@ -6,7 +6,7 @@ import { IStyledCalendar } from './types';
 export const StyledCalendar = styled.div<IStyledCalendar>`
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: ${({ theme }) => theme.borderRadius.md}px;
-  padding: 15px 10px 10px 10px;
+  padding: 15px 10px 10px;
   max-width: 250px;
 
   ${({ $isYearDisplay }) =>
