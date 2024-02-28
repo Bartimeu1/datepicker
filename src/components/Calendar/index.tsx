@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
-import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
-import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
+import { ChevronNext, ChevronPrev } from '@constants/icons';
 import { CalendarDay } from '@components/CalendarDay';
 import { TodoModal } from '@components/TodoModal';
 import {

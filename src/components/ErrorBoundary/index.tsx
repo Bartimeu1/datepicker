@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import { ReactComponent as BoundaryIcon } from '@assets/images/boundary.svg';
+import { BoundaryIcon } from '@constants/icons';
 import { boundaryText } from '@constants/text';
 
 import { Boundary, BoundaryText } from './styled';

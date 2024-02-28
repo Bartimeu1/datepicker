@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ReactComponent as ClearIcon } from '@assets/images/delete.svg';
+import { DeleteIcon } from '@constants/icons';
 import { useOnClickOutside } from '@root/hooks';
 import { v1 as uuidv1 } from 'uuid';
 
@@ -73,7 +73,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
           {todoItems.map(({ id, value }) => (
             <TodoItem key={id}>
               <TodoItemText>{value}</TodoItemText>
-              <ClearIcon
+              <DeleteIcon
                 onClick={deleteTodo(id)}
                 data-testid="todo-clear-button"
               />

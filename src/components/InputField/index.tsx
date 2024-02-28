@@ -1,8 +1,7 @@
 import React, { memo, useMemo } from 'react';
 
-import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
-import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
-import { applyDateMask,validateInputValue } from '@root/utils/formatting';
+import { CalendarIcon, ClearIcon } from '@constants/icons';
+import { applyDateMask, validateInputValue } from '@root/utils/formatting';
 
 import {
   CalendarButton,
