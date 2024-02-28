@@ -52,3 +52,7 @@ export const weeksInMonth = 4;
 export const daysInWeek = 7;
 
 export const monthsInYear = 12;
+
+export const initialWeekIndex = 0;
+
+export const initialMonthIndex = 1;

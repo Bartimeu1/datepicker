@@ -2,7 +2,7 @@ import { ComponentType, useCallback, useMemo } from 'react';
 
 import { IDateItem, IDecoratedCalendarProps } from '@root/types/calendar';
 import { DateInputTypesEnum } from '@root/types/calendar';
-import { isDateAfter, parseDateItemIntoDate } from '@root/utils/date';
+import { parseDateItemIntoDate } from '@root/utils/date';
 import { syncInputWithDateItem } from '@utils/helpers';
 
 export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
@@ -34,9 +34,10 @@ export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
           year: targetYear,
         } = targetEndDate;
 
-        return (
-          month === targetMonth && day === targetDay && year === targetYear
-        );
+        const isDatesMatching =
+          month === targetMonth && day === targetDay && year === targetYear;
+
+        return isDatesMatching;
       }
 
       return false;
@@ -45,12 +46,17 @@ export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
     const onRangeCalendarDayClick = useCallback(
       (date: IDateItem) => () => {
         const selectedDate = parseDateItemIntoDate(date);
-        if (!targetStartDate || (targetStartDate && targetEndDate)) {
+
+        const isStartDateEmpty = !targetStartDate;
+        const isRangeSelected = targetStartDate && targetEndDate;
+        const isSelectedDateGreaterThanTargetStart =
+          !isStartDateEmpty &&
+          selectedDate > parseDateItemIntoDate(targetStartDate);
+
+        if (isStartDateEmpty || isRangeSelected) {
           changeDateInputValue(date, DateInputTypesEnum.start);
           changeDateInputValue(null, DateInputTypesEnum.end);
-        } else if (
-          isDateAfter(selectedDate, parseDateItemIntoDate(targetStartDate))
-        ) {
+        } else if (isSelectedDateGreaterThanTargetStart) {
           changeDateInputValue(date, DateInputTypesEnum.end);
         } else {
           changeDateInputValue(date, DateInputTypesEnum.start);
