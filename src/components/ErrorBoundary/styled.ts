@@ -6,10 +6,10 @@ export const Boundary = styled.div`
 
   height: 100%;
   width: 100%;
-`;
 
-export const BoundaryImage = styled.img`
-  margin-bottom: 20px;
+  & svg {
+    margin-bottom: 20px;
+  }
 `;
 
 export const BoundaryText = styled.p`
