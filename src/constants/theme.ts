@@ -34,4 +34,8 @@ export const theme: ITheme = {
     sm: 6,
     md: 8,
   },
+  container: {
+    base: 250,
+    year: 1100,
+  },
 };

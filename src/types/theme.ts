@@ -14,4 +14,7 @@ export interface ITheme {
   borderRadius: {
     [key: string]: number;
   };
+  container: {
+    [key: string]: number;
+  };
 }

@@ -7,12 +7,12 @@ export const StyledCalendar = styled.div<IStyledCalendar>`
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: ${({ theme }) => theme.borderRadius.md}px;
   padding: 15px 10px 10px;
-  max-width: 250px;
+  max-width: ${({ theme }) => theme.container.base}px;
 
-  ${({ $isYearDisplay }) =>
+  ${({ $isYearDisplay, theme }) =>
     $isYearDisplay &&
     `
-    max-width: 1100px;
+    max-width: ${theme.container.year}px;
   `};
 `;
 
