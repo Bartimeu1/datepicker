@@ -1,22 +1,23 @@
-import { memo, useRef,useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
 import { Tooltip } from '@components/Tooltip';
 
 import { CalendarDayWrapper, StyledCalendarDay } from './styled';
 import { ICalendarDayProps, tooltipRefTypes } from './types';
 
-export const CalendarDay = memo(function CalendarDay({
-  date,
-  isDisabled,
-  isTarget,
-  isTargetEnd,
-  isHoliday,
-  isInRange,
-  range,
-  todos,
-  toggleTodoModal,
-  onCalendarDayClick,
-}: ICalendarDayProps) {
+export const CalendarDay = memo(function CalendarDay(props: ICalendarDayProps) {
+  const {
+    date,
+    isDisabled,
+    isTarget,
+    isTargetEnd,
+    isHoliday,
+    isInRange,
+    range,
+    todos,
+    toggleTodoModal,
+    onCalendarDayClick,
+  } = props;
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   const tooltipRef = useRef<tooltipRefTypes>(null);
