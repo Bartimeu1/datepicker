@@ -1,11 +1,11 @@
 import { ComponentType, useCallback, useMemo, useState } from 'react';
 
 import {
+  initialMonthIndex,
+  initialWeekIndex,
   mondayCalendarIndex,
   sundayCalendarIndex,
   weeksInMonth,
-  initialMonthIndex,
-  initialWeekIndex,
 } from '@constants/calendar';
 import {
   CalendarStartDaysEnum,
@@ -88,6 +88,7 @@ export const WithViewLogic = (
     };
 
     const onPrevButtonClick = () => {
+      //eslint-disable-next-line
       let { target, week, month, year } = startDateValue;
       const { month: prevMonth, year: yearOfPrevMonth } = getPreviousMonth(
         month,
@@ -121,6 +122,7 @@ export const WithViewLogic = (
     };
 
     const onNextButtonClick = () => {
+      //eslint-disable-next-line
       let { target, week, month, year } = startDateValue;
       const { month: nextMonth, year: yearOfNextMonth } = getNextMonth(
         month,

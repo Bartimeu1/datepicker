@@ -1,4 +1,4 @@
-import { StylingWrapper } from '@components/StylingWrapper';
+import { ConfigProvider } from '@components/ConfigProvider';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -14,12 +14,12 @@ const mockedTodoText = 'new todo';
 
 describe('TodoModal component', () => {
   test('component should render correctly', () => {
-    render(<TodoModal {...mockedProps} />, { wrapper: StylingWrapper });
+    render(<TodoModal {...mockedProps} />, { wrapper: ConfigProvider });
   });
 
   test('todo input should change value correctly', () => {
     const { getByTestId } = render(<TodoModal {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const todoInput = getByTestId('todo-input');
@@ -32,7 +32,7 @@ describe('TodoModal component', () => {
 
   test('should add new todo item', () => {
     const { getByTestId, getByText } = render(<TodoModal {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const todoInput = getByTestId('todo-input');
@@ -52,7 +52,7 @@ describe('TodoModal component', () => {
 
   test('should delete todo item after clear button click', () => {
     const { getByTestId, getByText } = render(<TodoModal {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const fieldWithText = getByText(mockedTodoText);
@@ -65,7 +65,7 @@ describe('TodoModal component', () => {
 
   test('should close after cancel button click', () => {
     const { getByTestId } = render(<TodoModal {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const todoModal = getByTestId('todo-modal');
@@ -80,7 +80,7 @@ describe('TodoModal component', () => {
 
   test('should close after outside click', async () => {
     render(<TodoModal {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     userEvent.click(document.body);

@@ -1,4 +1,4 @@
-import { StylingWrapper } from '@components/StylingWrapper';
+import { ConfigProvider } from '@components/ConfigProvider';
 import {
   CalendarStartDaysEnum,
   CalendarViewTypesEnum,
@@ -7,7 +7,7 @@ import {
   IDecoratedCalendarProps,
 } from '@root/types/calendar';
 import { fireEvent, render } from '@testing-library/react';
-import { formatMonthYear,getCalendarDates } from '@utils/calendar';
+import { formatMonthYear, getCalendarDates } from '@utils/calendar';
 
 import { DecoratedCalendar } from '.';
 
@@ -55,7 +55,7 @@ const decoratedCalendarProps: IDecoratedCalendarProps = {
 describe('DecoratedCalendar component', () => {
   test('component should render correctly', () => {
     render(<DecoratedCalendar {...decoratedCalendarProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
   });
 
@@ -63,7 +63,7 @@ describe('DecoratedCalendar component', () => {
     const { getByTestId } = render(
       <DecoratedCalendar {...decoratedCalendarProps} />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -81,7 +81,7 @@ describe('DecoratedCalendar component', () => {
     const { getByTestId } = render(
       <DecoratedCalendar {...decoratedCalendarProps} />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -93,7 +93,7 @@ describe('DecoratedCalendar component', () => {
     fireEvent.click(nextButton);
     expect(calendarHeader).toHaveTextContent(formatMonthYear(month + 2, year));
   });
-  
+
   test('should show only one month when view type is month', () => {
     const { getAllByTestId } = render(
       <DecoratedCalendar
@@ -101,7 +101,7 @@ describe('DecoratedCalendar component', () => {
         viewType={CalendarViewTypesEnum.month}
       />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -116,7 +116,7 @@ describe('DecoratedCalendar component', () => {
         viewType={CalendarViewTypesEnum.year}
       />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -131,7 +131,7 @@ describe('DecoratedCalendar component', () => {
         viewType={CalendarViewTypesEnum.week}
       />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 

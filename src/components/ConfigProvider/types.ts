@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
 
-export interface IStylingWrapperProps {
+export interface IConfigProviderProps {
   children: ReactNode;
 }

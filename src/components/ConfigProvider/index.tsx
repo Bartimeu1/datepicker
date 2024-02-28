@@ -1,14 +1,14 @@
+import { ErrorBoundary } from '@components/ErrorBoundary';
 import { theme } from '@constants/theme';
 import { GlobalStyle } from '@root/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 
-import { IStylingWrapperProps } from './types';
-
-export const StylingWrapper = ({ children }: IStylingWrapperProps) => {
+import { IConfigProviderProps } from './types';
+export const ConfigProvider = ({ children }: IConfigProviderProps) => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
     </ThemeProvider>
   );
 };

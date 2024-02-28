@@ -1,4 +1,4 @@
-import { StylingWrapper } from '@components/StylingWrapper';
+import { ConfigProvider } from '@components/ConfigProvider';
 import { fireEvent, render } from '@testing-library/react';
 
 import { CalendarDay } from '.';
@@ -21,14 +21,14 @@ const mockedProps: ICalendarDayProps = {
 
 describe('CalendarDay component', () => {
   test('component should render correctly', () => {
-    render(<CalendarDay {...mockedProps} />, { wrapper: StylingWrapper });
+    render(<CalendarDay {...mockedProps} />, { wrapper: ConfigProvider });
   });
 
   test('should not act when disabled', () => {
     const { getByTestId } = render(
       <CalendarDay {...mockedProps} isDisabled={true} />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -40,7 +40,7 @@ describe('CalendarDay component', () => {
 
   test('should call onCalendarDayClick with correct date when clicked', () => {
     const { getByTestId } = render(<CalendarDay {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const calendarDay = getByTestId('calendar-day');
@@ -53,7 +53,7 @@ describe('CalendarDay component', () => {
 
   test('should toggle todo modal after double click', () => {
     const { getByTestId } = render(<CalendarDay {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const calendarDay = getByTestId('calendar-day');

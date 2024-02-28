@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { ChevronNext, ChevronPrev } from '@constants/icons';
 import { CalendarDay } from '@components/CalendarDay';
 import { TodoModal } from '@components/TodoModal';
 import {
@@ -8,6 +7,7 @@ import {
   fromMondayWeekDays,
   fromSundayWeekDays,
 } from '@constants/calendar';
+import { ChevronNext, ChevronPrev } from '@constants/icons';
 import {
   CalendarStartDaysEnum,
   CalendarViewTypesEnum,

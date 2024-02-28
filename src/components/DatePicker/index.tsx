@@ -1,9 +1,8 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
-import { ErrorBoundary } from '@components/ErrorBoundary';
+import { ConfigProvider } from '@components/ConfigProvider';
 import { InputField } from '@components/InputField';
-import { StylingWrapper } from '@components/StylingWrapper';
 import { useOnClickOutside } from '@root/hooks';
 import {
   CalendarStartDaysEnum,
@@ -12,7 +11,7 @@ import {
   DateInputTypesEnum,
   IDateItem,
 } from '@root/types/calendar';
-import { formatDateItemToInput } from '@root/utils/formatting';
+import { formatDateItemToInput } from '@utils/formatting';
 
 import { StyledDatePicker } from './styled';
 import { IDatePickerProps } from './types';
@@ -72,39 +71,37 @@ export const DatePicker = (props: IDatePickerProps) => {
   const startInputLabel = useMemo(() => (range ? 'From' : 'Date'), [range]);
 
   return (
-    <StylingWrapper>
-      <ErrorBoundary>
-        <StyledDatePicker ref={pickerRef}>
+    <ConfigProvider>
+      <StyledDatePicker ref={pickerRef}>
+        <InputField
+          label={startInputLabel}
+          setInputValue={setStartDateInputValue}
+          dateInputValue={startDateInputValue}
+          {...inputFieldProps}
+        />
+        {range && (
           <InputField
-            label={startInputLabel}
-            setInputValue={setStartDateInputValue}
-            dateInputValue={startDateInputValue}
+            label={'To'}
+            setInputValue={setEndDateInputValue}
+            dateInputValue={endDateInputValue}
             {...inputFieldProps}
           />
-          {range && (
-            <InputField
-              label={'To'}
-              setInputValue={setEndDateInputValue}
-              dateInputValue={endDateInputValue}
-              {...inputFieldProps}
-            />
-          )}
-          {isCalendarVisible && (
-            <DecoratedCalendar
-              startDateInputValue={startDateInputValue}
-              endDateInputValue={endDateInputValue}
-              changeDateInputValue={changeDateInputValue}
-              holidays={holidays}
-              todos={todos}
-              range={range}
-              viewType={viewType}
-              startDay={startDay}
-              minValue={minValue}
-              maxValue={maxValue}
-            />
-          )}
-        </StyledDatePicker>
-      </ErrorBoundary>
-    </StylingWrapper>
+        )}
+        {isCalendarVisible && (
+          <DecoratedCalendar
+            startDateInputValue={startDateInputValue}
+            endDateInputValue={endDateInputValue}
+            changeDateInputValue={changeDateInputValue}
+            holidays={holidays}
+            todos={todos}
+            range={range}
+            viewType={viewType}
+            startDay={startDay}
+            minValue={minValue}
+            maxValue={maxValue}
+          />
+        )}
+      </StyledDatePicker>
+    </ConfigProvider>
   );
 };
