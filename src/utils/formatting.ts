@@ -1,4 +1,5 @@
-import { dateRegex, daysInWeek } from '@constants/calendar';
+import { daysInWeek } from '@constants/calendar';
+import { dateRegex, lettersRegex } from '@constants/regex';
 import {
   formatValidationText,
   greaterValidationText,
@@ -49,4 +50,17 @@ export const validateInputValue = (
   }
 
   return '';
+};
+
+export const applyDateMask = (value: string) => {
+  const filteredValue = value.replace(lettersRegex, '');
+  const valueLength = filteredValue.length;
+
+  if (valueLength <= 2) {
+    return filteredValue;
+  } else if (valueLength <= 4) {
+    return `${filteredValue.slice(0, 2)}/${filteredValue.slice(2)}`;
+  } else {
+    return `${filteredValue.slice(0, 2)}/${filteredValue.slice(2, 4)}/${filteredValue.slice(4, 8)}`;
+  }
 };
