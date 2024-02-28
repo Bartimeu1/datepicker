@@ -7,6 +7,7 @@ import { ICalendarDayProps } from './types';
 const mockedDate = { year: 2024, day: 1, month: 1 };
 
 const mockedProps: ICalendarDayProps = {
+  todos: false,
   isDisabled: false,
   isHoliday: false,
   isInRange: false,
