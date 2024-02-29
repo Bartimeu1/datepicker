@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
 
-import { ReactComponent as ChevronNext } from '@assets/images/chevronNext.svg';
-import { ReactComponent as ChevronPrev } from '@assets/images/chevronPrev.svg';
 import { CalendarDay } from '@components/CalendarDay';
 import { TodoModal } from '@components/TodoModal';
 import {
@@ -9,6 +7,7 @@ import {
   fromMondayWeekDays,
   fromSundayWeekDays,
 } from '@constants/calendar';
+import { ChevronNext, ChevronPrev } from '@constants/icons';
 import {
   CalendarStartDaysEnum,
   CalendarViewTypesEnum,
@@ -35,7 +34,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     onRangeCalendarDayClick,
     isDayDisabled,
     isTargetDay,
-    isTargetEndDay,
+    isTargetRangeEnd,
     isDayInRange,
     checkIfHoliday,
     onPrevButtonClick,
@@ -46,6 +45,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     targetDateItem,
     startDay,
     range,
+    todos,
     isTodoModalVisible,
     toggleTodoModal,
     closeTodoModal,
@@ -93,9 +93,10 @@ const Calendar = (props: IDecoratedCalendarProps) => {
               {month.map((date) => (
                 <CalendarDay
                   key={date.id}
+                  todos={todos}
                   range={range}
                   date={date}
-                  isTargetEnd={range && (isTargetEndDay(date) || false)}
+                  isTargetEnd={range && (isTargetRangeEnd(date) || false)}
                   isInRange={range && (isDayInRange(date) || false)}
                   isDisabled={isDayDisabled(date)}
                   isTarget={isTargetDay(date)}

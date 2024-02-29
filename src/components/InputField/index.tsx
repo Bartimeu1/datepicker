@@ -1,8 +1,7 @@
 import React, { memo, useMemo } from 'react';
 
-import { ReactComponent as CalendarIcon } from '@assets/images/calendar.svg';
-import { ReactComponent as ClearIcon } from '@assets/images/clear.svg';
-import { validateInputValue } from '@root/utils/formatting';
+import { CalendarIcon, ClearIcon } from '@constants/icons';
+import { applyDateMask, validateInputValue } from '@root/utils/formatting';
 
 import {
   CalendarButton,
@@ -33,7 +32,7 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
   }, [dateInputValue, minValue, maxValue]);
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    setInputValue(applyDateMask(e.target.value));
   };
 
   const onClearButtonClick = () => {

@@ -1,17 +1,10 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 
-import boundaryImage from '@assets/images/boundary.png';
+import { BoundaryIcon } from '@constants/icons';
 import { boundaryText } from '@constants/text';
 
-import { Boundary, BoundaryImage, BoundaryText } from './styled';
-
-interface IErrorBoundaryProps {
-  children: React.ReactNode;
-}
-
-interface IErrorBoundaryState {
-  hasError: boolean;
-}
+import { Boundary, BoundaryText } from './styled';
+import { IErrorBoundaryProps, IErrorBoundaryState } from './types';
 
 export class ErrorBoundary extends Component<
   IErrorBoundaryProps,
@@ -35,7 +28,7 @@ export class ErrorBoundary extends Component<
     if (hasError) {
       return (
         <Boundary>
-          <BoundaryImage src={boundaryImage} />
+          <BoundaryIcon />
           <BoundaryText>{boundaryText}</BoundaryText>
         </Boundary>
       );

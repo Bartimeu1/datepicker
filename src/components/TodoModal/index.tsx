@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ReactComponent as ClearIcon } from '@assets/images/delete.svg';
+import { DeleteIcon } from '@constants/icons';
 import { useOnClickOutside } from '@root/hooks';
+import { getStorageItem,setStorageItem } from '@utils/storage';
 import { v1 as uuidv1 } from 'uuid';
 
 import {
@@ -25,16 +26,19 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
   const [inputValue, setInputValue] = useState('');
 
   const getTodos = () => {
-    const savedTodos = localStorage.getItem(`todo_${JSON.stringify(dateItem)}`);
+    const savedTodos = getStorageItem(`todo_${JSON.stringify(dateItem)}`);
     if (savedTodos) {
       return JSON.parse(savedTodos);
     } else return [];
   };
 
-  const [todoItems, setTodoItems] = useState<ITodoItem[]>(getTodos());
+  const [todoItems, setTodoItems] = useState<ITodoItem[]>(() => {
+    const initialState = getTodos();
+    return initialState;
+  });
 
   const setTodos = useCallback(() => {
-    localStorage.setItem(
+    setStorageItem(
       `todo_${JSON.stringify(dateItem)}`,
       JSON.stringify(todoItems),
     );
@@ -73,7 +77,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
           {todoItems.map(({ id, value }) => (
             <TodoItem key={id}>
               <TodoItemText>{value}</TodoItemText>
-              <ClearIcon
+              <DeleteIcon
                 onClick={deleteTodo(id)}
                 data-testid="todo-clear-button"
               />
@@ -86,6 +90,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
           placeholder="Enter your task..."
           value={inputValue}
           onChange={onInputValueChange}
+          maxLength={15}
         />
         <ModalControls>
           <AddButton onClick={addTodo} data-testid="todo-accept-button">

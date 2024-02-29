@@ -1,6 +1,7 @@
 import { IDateItem } from '@root/types/calendar';
 
 export interface ICalendarDayProps {
+  todos: boolean;
   isDisabled: boolean;
   isTarget: boolean;
   range: boolean;
@@ -20,3 +21,5 @@ export interface IStyledCalendarDay {
   $isTargetEnd: boolean | null;
   $isHoliday: boolean | null;
 }
+
+export type tooltipRefTypes = NodeJS.Timeout | null;

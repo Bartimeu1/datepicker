@@ -12,6 +12,8 @@ export const theme: ITheme = {
     border: '#E1E1E1',
     textHover: '#F1F1F1',
     error: '#ff0000',
+    range: '#2F80ED96',
+    insideRange: '#2F80ED19',
   },
   fontFamily: {
     primary: 'Open Sans, sans-serif',
@@ -33,5 +35,9 @@ export const theme: ITheme = {
   borderRadius: {
     sm: 6,
     md: 8,
+  },
+  container: {
+    base: 250,
+    year: 1100,
   },
 };

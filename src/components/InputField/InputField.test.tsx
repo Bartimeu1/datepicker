@@ -1,11 +1,11 @@
-import { StylingWrapper } from '@components/StylingWrapper';
+import { ConfigProvider } from '@components/ConfigProvider';
 import {
   formatValidationText,
   greaterValidationText,
   lowerValidationText,
 } from '@constants/text';
-import { fireEvent,render } from '@testing-library/react';
-import { formatDateItemToInput } from '@utils/formatting';
+import { fireEvent, render } from '@testing-library/react';
+import { formatDateItemIntoInput } from '@utils/formatting';
 
 import { InputField } from '.';
 import { IInputFieldProps } from './types';
@@ -25,12 +25,12 @@ const mockedInputDateItem = { year: 2024, day: 1, month: 1 };
 
 describe('InputField component', () => {
   test('component should render correctly', () => {
-    render(<InputField {...mockedProps} />, { wrapper: StylingWrapper });
+    render(<InputField {...mockedProps} />, { wrapper: ConfigProvider });
   });
 
   test('date input should change value correctly', () => {
     const { getByTestId } = render(<InputField {...mockedProps} />, {
-      wrapper: StylingWrapper,
+      wrapper: ConfigProvider,
     });
 
     const dateInput = getByTestId('date-input');
@@ -45,7 +45,7 @@ describe('InputField component', () => {
     const { getByTestId } = render(
       <InputField {...mockedProps} dateInputValue={mockedInputDate} />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -60,7 +60,7 @@ describe('InputField component', () => {
     const { getByTestId } = render(
       <InputField {...mockedProps} dateInputValue="incorrectFormat" />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
@@ -76,13 +76,13 @@ describe('InputField component', () => {
         minValue={mockedInputDateItem}
       />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
     const validationText = getByTestId('validation-text');
     expect(validationText).toHaveTextContent(
-      `${greaterValidationText} ${formatDateItemToInput(mockedInputDateItem)}`,
+      `${greaterValidationText} ${formatDateItemIntoInput(mockedInputDateItem)}`,
     );
   });
 
@@ -94,13 +94,13 @@ describe('InputField component', () => {
         maxValue={mockedInputDateItem}
       />,
       {
-        wrapper: StylingWrapper,
+        wrapper: ConfigProvider,
       },
     );
 
     const validationText = getByTestId('validation-text');
     expect(validationText).toHaveTextContent(
-      `${lowerValidationText} ${formatDateItemToInput(mockedInputDateItem)}`,
+      `${lowerValidationText} ${formatDateItemIntoInput(mockedInputDateItem)}`,
     );
   });
 });

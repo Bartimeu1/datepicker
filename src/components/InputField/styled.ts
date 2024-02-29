@@ -26,7 +26,7 @@ export const InputContent = styled.div`
 
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: ${({ theme }) => theme.borderRadius.md}px;
-  max-width: 250px;
+  width: 250px;
   padding: 13px 0 13px 16px;
   position: relative;
 `;

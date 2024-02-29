@@ -43,8 +43,6 @@ export const holidayDates = [
 
 export const calendarWeeks = 6;
 
-export const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
-
 export const mondayCalendarIndex = 1;
 
 export const sundayCalendarIndex = 0;
@@ -54,3 +52,7 @@ export const weeksInMonth = 4;
 export const daysInWeek = 7;
 
 export const monthsInYear = 12;
+
+export const initialWeekIndex = 0;
+
+export const initialMonthIndex = 1;

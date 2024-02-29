@@ -25,13 +25,31 @@ export const Default: Story = {
 };
 
 export const WithHolidays: Story = {
-  render: () => <DatePicker holidays={true} />,
+  args: {
+    viewType: 'month',
+    startDay: 'monday',
+    holidays: true,
+    todos: false,
+    range: false,
+  },
 };
 
 export const WithRange: Story = {
-  render: () => <DatePicker range={true} />,
+  args: {
+    viewType: 'month',
+    startDay: 'monday',
+    holidays: false,
+    range: true,
+    todos: false,
+  },
 };
 
 export const WithTodos: Story = {
-  render: () => <DatePicker todos={true} />,
+  args: {
+    viewType: 'month',
+    startDay: 'monday',
+    holidays: false,
+    range: false,
+    todos: true,
+  },
 };

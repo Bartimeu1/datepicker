@@ -1,5 +1,5 @@
 import { CalendarDay } from '@components/CalendarDay';
-import { Meta, StoryFn,StoryObj } from '@storybook/react';
+import { Meta, StoryFn, StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'CalendarDay',
@@ -14,7 +14,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-import { StylingWrapper } from '@components/StylingWrapper';
+import { ConfigProvider } from '@components/ConfigProvider';
 
 const mockedProps = {
   date: { year: 2024, month: 1, day: 1 },
@@ -24,14 +24,15 @@ const mockedProps = {
   isHoliday: false,
   isInRange: false,
   range: false,
+  todos: false,
   toggleTodoModal: () => () => {},
   onCalendarDayClick: () => () => {},
 };
 
 const decorators = (Story: StoryFn) => (
-  <StylingWrapper>
+  <ConfigProvider>
     <Story />
-  </StylingWrapper>
+  </ConfigProvider>
 );
 
 export const Default: Story = {

@@ -3,12 +3,16 @@ import styled, { css } from 'styled-components';
 
 import { IStyledCalendarDay } from './types';
 
+export const CalendarDayWrapper = styled.div`
+  position: relative;
+`;
+
 export const StyledCalendarDay = styled.div<IStyledCalendarDay>`
   ${FlexMixin({ align: 'center', justify: 'center' })};
 
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   cursor: pointer;
-  flex: 0 0 14%;
+  width: 14%;
   height: 32px;
   min-width: 32px;
 
@@ -31,7 +35,7 @@ const holidayStyles = css`
 `;
 
 const inRangeStyles = css`
-  background-color: rgba(47, 128, 237, 0.1);
+  background-color: ${({ theme }) => theme.color.insideRange};
   color: ${({ theme }) => theme.color.selected};
 `;
 
@@ -49,7 +53,7 @@ const targetStyles = css`
 `;
 
 const rangeStyles = css`
-  background-color: rgba(47, 128, 237, 0.6);
+  background-color: ${({ theme }) => theme.color.range};
   color: ${({ theme }) => theme.color.white};
   border-radius: ${({ theme }) => theme.borderRadius.md}px 0 0
     ${({ theme }) => theme.borderRadius.md}px;

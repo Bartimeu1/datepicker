@@ -1,6 +1,8 @@
 import { ComponentType, useCallback, useMemo, useState } from 'react';
 
 import {
+  initialMonthIndex,
+  initialWeekIndex,
   mondayCalendarIndex,
   sundayCalendarIndex,
   weeksInMonth,
@@ -12,15 +14,17 @@ import {
   IDateItem,
   IDecoratedCalendarProps,
 } from '@root/types/calendar';
+import { formatCalendarHeader } from '@root/utils/formatting';
 import {
-  formatMonthYear,
   getCalendarDates,
-  getNextMonth,
-  getPreviousMonth,
   getWeekCalendarDates,
   getYearCalendarDates,
 } from '@utils/calendar';
-import { isDateAfter, parseDateItemIntoDate } from '@utils/date';
+import {
+  getNextMonthAndYear,
+  getPreviousMonthAndYear,
+  parseDateItemIntoDate,
+} from '@utils/date';
 import { syncInputWithState } from '@utils/helpers';
 
 interface IDateValueState {
@@ -44,7 +48,14 @@ export const WithViewLogic = (
     } = props;
 
     const [startDateValue, setStartDateValue] = useState<IDateValueState>(
-      syncInputWithState(startDateInputValue, minValue, maxValue),
+      () => {
+        const initialState = syncInputWithState(
+          startDateInputValue,
+          minValue,
+          maxValue,
+        );
+        return initialState;
+      },
     );
 
     const startDayIndex = useMemo(
@@ -60,14 +71,20 @@ export const WithViewLogic = (
 
       let calendarDates;
 
-      if (viewType === CalendarViewTypesEnum.year) {
-        calendarDates = getYearCalendarDates(year, startDayIndex);
-      } else if (viewType === CalendarViewTypesEnum.month) {
-        calendarDates = [getCalendarDates(year, month, startDayIndex)];
-      } else {
-        calendarDates = [
-          getWeekCalendarDates(year, month, week, startDayIndex),
-        ];
+      switch (viewType) {
+        case CalendarViewTypesEnum.year:
+          calendarDates = getYearCalendarDates(year, startDayIndex);
+          break;
+        case CalendarViewTypesEnum.month:
+          calendarDates = [getCalendarDates(year, month, startDayIndex)];
+          break;
+        case CalendarViewTypesEnum.week:
+          calendarDates = [
+            getWeekCalendarDates(year, month, week, startDayIndex),
+          ];
+          break;
+        default:
+          throw new Error('Unreachable view type');
       }
 
       return calendarDates;
@@ -75,71 +92,74 @@ export const WithViewLogic = (
 
     const getCurrentCalendarHeader = () => {
       return viewType !== CalendarViewTypesEnum.year
-        ? formatMonthYear(startDateValue.month, startDateValue.year)
+        ? formatCalendarHeader(startDateValue.month, startDateValue.year)
         : String(startDateValue.year);
     };
 
     const onPrevButtonClick = () => {
-      const { target, week, month, year } = startDateValue;
-      const previousMonth = getPreviousMonth(month, year);
+      //eslint-disable-next-line
+      let { target, week, month, year } = startDateValue;
+      const { month: prevMonth, year: yearOfPrevMonth } =
+        getPreviousMonthAndYear(month, year);
 
-      let newMonth = month;
-      let newWeek = week;
-      let newYear = year;
+      switch (viewType) {
+        case CalendarViewTypesEnum.year:
+          month = initialMonthIndex;
+          week = initialWeekIndex;
+          year -= 1;
+          break;
+        case CalendarViewTypesEnum.month:
+          month = prevMonth;
+          week = initialWeekIndex;
+          year = yearOfPrevMonth;
+          break;
+        case CalendarViewTypesEnum.week:
+          week = week === initialWeekIndex ? weeksInMonth : week - 1;
 
-      if (viewType === CalendarViewTypesEnum.week) {
-        newWeek = week === 0 ? weeksInMonth : week - 1;
-        if (!newWeek) {
-          newMonth = previousMonth.month;
-          newYear = previousMonth.year;
-        }
-      } else if (viewType === CalendarViewTypesEnum.month) {
-        newMonth = previousMonth.month;
-        newWeek = 0;
-        newYear = previousMonth.year;
-      } else if (viewType === CalendarViewTypesEnum.year) {
-        newMonth = 1;
-        newWeek = 0;
-        newYear -= 1;
+          if (!week) {
+            month = prevMonth;
+            year = yearOfPrevMonth;
+          }
+          break;
+        default:
+          throw new Error('Unreachable view type');
       }
 
-      setStartDateValue({
-        month: newMonth,
-        week: newWeek,
-        year: newYear,
-        target,
-      });
+      setStartDateValue({ month, week, year, target });
     };
 
     const onNextButtonClick = () => {
-      const { target, week, month, year } = startDateValue;
-      const nextMonth = getNextMonth(month, year);
+      //eslint-disable-next-line
+      let { target, week, month, year } = startDateValue;
+      const { month: nextMonth, year: yearOfNextMonth } = getNextMonthAndYear(
+        month,
+        year,
+      );
 
-      let newMonth = month;
-      let newWeek = week;
-      let newYear = year;
+      switch (viewType) {
+        case CalendarViewTypesEnum.year:
+          month = initialMonthIndex;
+          week = initialWeekIndex;
+          year += 1;
+          break;
+        case CalendarViewTypesEnum.month:
+          month = nextMonth;
+          week = initialWeekIndex;
+          year = yearOfNextMonth;
+          break;
+        case CalendarViewTypesEnum.week:
+          week = week === weeksInMonth ? initialWeekIndex : week + 1;
 
-      if (viewType === CalendarViewTypesEnum.week) {
-        newWeek = week === weeksInMonth ? 0 : week + 1;
-        if (!newWeek) {
-          newMonth = nextMonth.month;
-          newYear = nextMonth.year;
-        }
-      } else if (viewType === CalendarViewTypesEnum.month) {
-        newMonth = nextMonth.month;
-        newYear = nextMonth.year;
-      } else if (viewType === CalendarViewTypesEnum.year) {
-        newMonth = 1;
-        newWeek = 0;
-        newYear += 1;
+          if (!week) {
+            month = nextMonth;
+            year = yearOfNextMonth;
+          }
+          break;
+        default:
+          throw new Error('Unreachable view type');
       }
 
-      setStartDateValue({
-        month: newMonth,
-        week: newWeek,
-        year: newYear,
-        target,
-      });
+      setStartDateValue({ month, week, year, target });
     };
 
     const isCalendarDayTarget = (date: IDateItem) => {
@@ -153,9 +173,10 @@ export const WithViewLogic = (
           year: targetYear,
         } = targetDate;
 
-        return (
-          month === targetMonth && day === targetDay && year === targetYear
-        );
+        const isDatesMatching =
+          month === targetMonth && day === targetDay && year === targetYear;
+
+        return isDatesMatching;
       }
 
       return false;
@@ -164,13 +185,20 @@ export const WithViewLogic = (
     const isCalendarDayDisabled = (date: IDateItem) => {
       const currentDate = parseDateItemIntoDate(date);
 
+      const isMinValueGreaterThanCurrDate =
+        minValue && parseDateItemIntoDate(minValue) > currentDate;
+
+      const isMaxValueLowerThanCurrDate =
+        maxValue && currentDate > parseDateItemIntoDate(maxValue);
+
+      const isMonthsDifferent =
+        viewType !== CalendarViewTypesEnum.year &&
+        date.month !== startDateValue.month;
+
       if (
-        (minValue &&
-          isDateAfter(parseDateItemIntoDate(minValue), currentDate)) ||
-        (maxValue &&
-          isDateAfter(currentDate, parseDateItemIntoDate(maxValue))) ||
-        (viewType !== CalendarViewTypesEnum.year &&
-          date.month !== startDateValue.month)
+        isMinValueGreaterThanCurrDate ||
+        isMaxValueLowerThanCurrDate ||
+        isMonthsDifferent
       ) {
         return true;
       }
