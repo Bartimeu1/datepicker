@@ -36,8 +36,13 @@ export const theme: ITheme = {
     sm: 6,
     md: 8,
   },
-  container: {
-    base: 250,
-    year: 1100,
+  calendarWidth: {
+    sm: 230,
+    md: 520,
+    lg: 780,
+  },
+  breakpoints: {
+    tablet: 870,
+    mobile: 570,
   },
 };
