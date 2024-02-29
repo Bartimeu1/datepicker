@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 
 import { DeleteIcon } from '@constants/icons';
 import { useOnClickOutside } from '@root/hooks';
+import { getStorageItem,setStorageItem } from '@utils/storage';
 import { v1 as uuidv1 } from 'uuid';
 
 import {
@@ -25,7 +26,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
   const [inputValue, setInputValue] = useState('');
 
   const getTodos = () => {
-    const savedTodos = localStorage.getItem(`todo_${JSON.stringify(dateItem)}`);
+    const savedTodos = getStorageItem(`todo_${JSON.stringify(dateItem)}`);
     if (savedTodos) {
       return JSON.parse(savedTodos);
     } else return [];
@@ -37,7 +38,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
   });
 
   const setTodos = useCallback(() => {
-    localStorage.setItem(
+    setStorageItem(
       `todo_${JSON.stringify(dateItem)}`,
       JSON.stringify(todoItems),
     );
