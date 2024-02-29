@@ -1,5 +1,5 @@
 import { IDateItem } from '@root/types/calendar';
-import { formatInputToDateItem,validateInputValue } from '@root/utils/formatting';
+import { formatInputValueIntoDateItem,validateInputValue } from '@root/utils/formatting';
 import { generateNewDateItem } from '@utils/calendar';
 
 export const syncInputWithDateItem = (
@@ -9,7 +9,7 @@ export const syncInputWithDateItem = (
 ) => {
   const isInputValueValid = !validateInputValue(inputValue, minValue, maxValue);
 
-  return isInputValueValid ? formatInputToDateItem(inputValue) : null;
+  return isInputValueValid ? formatInputValueIntoDateItem(inputValue) : null;
 };
 
 export const syncInputWithState = (

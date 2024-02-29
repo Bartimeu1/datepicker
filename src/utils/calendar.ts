@@ -1,24 +1,12 @@
-import {
-  calendarMonth,
-  calendarWeeks,
-  monthsInYear,
-} from '@constants/calendar';
+import { calendarWeeks, monthsInYear } from '@constants/calendar';
 import { daysInWeek } from '@constants/calendar';
+import {
+  getDaysInMonth,
+  getFirstDayOfMonth,
+  getNextMonthAndYear,
+  getPreviousMonthAndYear,
+} from '@utils/date';
 import { v1 as uuidv1 } from 'uuid';
-
-export const getPreviousMonth = (month: number, year: number) => {
-  const prevMonth = month > 1 ? month - 1 : monthsInYear;
-  const prevMonthYear = month > 1 ? year : year - 1;
-
-  return { month: prevMonth, year: prevMonthYear };
-};
-
-export const getNextMonth = (month: number, year: number) => {
-  const nextMonth = month < monthsInYear ? month + 1 : 1;
-  const nextMonthYear = month < monthsInYear ? year : year + 1;
-
-  return { month: nextMonth, year: nextMonthYear };
-};
 
 export const generateNewDateItem = () => {
   const currentDate = new Date();
@@ -29,20 +17,6 @@ export const generateNewDateItem = () => {
     week: Math.ceil(currentDate.getDate() / daysInWeek),
     month: currentDate.getMonth() + 1,
   };
-};
-
-export const formatMonthYear = (month: number, year: number) => {
-  const monthObject = calendarMonth.find((item) => item.id === month);
-
-  return `${monthObject?.fullName} ${year}`;
-};
-
-export const getDaysInMonth = (year: number, month: number) => {
-  return new Date(year, month, 0).getDate();
-};
-
-export const getFirstDayOfMonth = (year: number, month: number) => {
-  return new Date(year, month - 1, 1).getDay();
 };
 
 const generateMonthDates = (
@@ -76,11 +50,14 @@ export const getCalendarDates = (
   const nextMonthDays =
     calendarWeeks * daysInWeek - (daysFromPrevMonth + currentMonthDays);
 
-  const { month: prevMonth, year: prevMonthYear } = getPreviousMonth(
+  const { month: prevMonth, year: prevMonthYear } = getPreviousMonthAndYear(
     month,
     year,
   );
-  const { month: nextMonth, year: nextMonthYear } = getNextMonth(month, year);
+  const { month: nextMonth, year: nextMonthYear } = getNextMonthAndYear(
+    month,
+    year,
+  );
 
   const prevMonthDays = getDaysInMonth(prevMonthYear, prevMonth);
 

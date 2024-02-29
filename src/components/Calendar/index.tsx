@@ -34,7 +34,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
     onRangeCalendarDayClick,
     isDayDisabled,
     isTargetDay,
-    isTargetEndDay,
+    isTargetRangeEnd,
     isDayInRange,
     checkIfHoliday,
     onPrevButtonClick,
@@ -96,7 +96,7 @@ const Calendar = (props: IDecoratedCalendarProps) => {
                   todos={todos}
                   range={range}
                   date={date}
-                  isTargetEnd={range && (isTargetEndDay(date) || false)}
+                  isTargetEnd={range && (isTargetRangeEnd(date) || false)}
                   isInRange={range && (isDayInRange(date) || false)}
                   isDisabled={isDayDisabled(date)}
                   isTarget={isTargetDay(date)}

@@ -4,8 +4,8 @@ import {
   greaterValidationText,
   lowerValidationText,
 } from '@constants/text';
-import { fireEvent,render } from '@testing-library/react';
-import { formatDateItemToInput } from '@utils/formatting';
+import { fireEvent, render } from '@testing-library/react';
+import { formatDateItemIntoInput } from '@utils/formatting';
 
 import { InputField } from '.';
 import { IInputFieldProps } from './types';
@@ -82,7 +82,7 @@ describe('InputField component', () => {
 
     const validationText = getByTestId('validation-text');
     expect(validationText).toHaveTextContent(
-      `${greaterValidationText} ${formatDateItemToInput(mockedInputDateItem)}`,
+      `${greaterValidationText} ${formatDateItemIntoInput(mockedInputDateItem)}`,
     );
   });
 
@@ -100,7 +100,7 @@ describe('InputField component', () => {
 
     const validationText = getByTestId('validation-text');
     expect(validationText).toHaveTextContent(
-      `${lowerValidationText} ${formatDateItemToInput(mockedInputDateItem)}`,
+      `${lowerValidationText} ${formatDateItemIntoInput(mockedInputDateItem)}`,
     );
   });
 });

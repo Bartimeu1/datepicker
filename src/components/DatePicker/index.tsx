@@ -11,7 +11,7 @@ import {
   DateInputTypesEnum,
   IDateItem,
 } from '@root/types/calendar';
-import { formatDateItemToInput } from '@utils/formatting';
+import { formatDateItemIntoInput } from '@utils/formatting';
 
 import { StyledDatePicker } from './styled';
 import { IDatePickerProps } from './types';
@@ -40,7 +40,7 @@ export const DatePicker = (props: IDatePickerProps) => {
     dateItem: IDateItem | null,
     type: DateInputType = DateInputTypesEnum.start,
   ) => {
-    const dateInputValue = dateItem ? formatDateItemToInput(dateItem) : '';
+    const dateInputValue = dateItem ? formatDateItemIntoInput(dateItem) : '';
 
     if (type === DateInputTypesEnum.start) {
       setStartDateInputValue(dateInputValue);

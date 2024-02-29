@@ -12,7 +12,7 @@ export const StyledCalendarDay = styled.div<IStyledCalendarDay>`
 
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   cursor: pointer;
-  flex: 0 0 14%;
+  width: 14%;
   height: 32px;
   min-width: 32px;
 

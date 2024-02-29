@@ -7,7 +7,8 @@ import {
   IDecoratedCalendarProps,
 } from '@root/types/calendar';
 import { fireEvent, render } from '@testing-library/react';
-import { formatMonthYear, getCalendarDates } from '@utils/calendar';
+import { getCalendarDates } from '@utils/calendar';
+import { formatCalendarHeader } from '@utils/formatting';
 
 import { DecoratedCalendar } from '.';
 
@@ -38,13 +39,13 @@ const decoratedCalendarProps: IDecoratedCalendarProps = {
   onRangeCalendarDayClick: jest.fn(),
   isDayDisabled: jest.fn(),
   isTargetDay: jest.fn(),
-  isTargetEndDay: jest.fn(),
+  isTargetRangeEnd: jest.fn(),
   isDayInRange: jest.fn(),
   checkIfHoliday: jest.fn(),
   onPrevButtonClick: jest.fn(),
   onNextButtonClick: jest.fn(),
   currentCalendarDates: [getCalendarDates(year, month, 0)],
-  currentCalendarHeader: formatMonthYear(month, year),
+  currentCalendarHeader: formatCalendarHeader(month, year),
   targetDateItem: mockedDateItem,
   isTodoModalVisible: false,
   toggleTodoModal: jest.fn(),
@@ -72,9 +73,11 @@ describe('DecoratedCalendar component', () => {
     expect(calendarHeader).toBeInTheDocument();
     expect(prevButton).toBeInTheDocument();
 
-    expect(calendarHeader).toHaveTextContent(formatMonthYear(month + 1, year));
+    expect(calendarHeader).toHaveTextContent(
+      formatCalendarHeader(month + 1, year),
+    );
     fireEvent.click(prevButton);
-    expect(calendarHeader).toHaveTextContent(formatMonthYear(month, year));
+    expect(calendarHeader).toHaveTextContent(formatCalendarHeader(month, year));
   });
 
   test('should change dates after next button click', () => {
@@ -89,9 +92,13 @@ describe('DecoratedCalendar component', () => {
     const calendarHeader = getByTestId('calendar-header');
     expect(nextButton).toBeInTheDocument();
 
-    expect(calendarHeader).toHaveTextContent(formatMonthYear(month + 1, year));
+    expect(calendarHeader).toHaveTextContent(
+      formatCalendarHeader(month + 1, year),
+    );
     fireEvent.click(nextButton);
-    expect(calendarHeader).toHaveTextContent(formatMonthYear(month + 2, year));
+    expect(calendarHeader).toHaveTextContent(
+      formatCalendarHeader(month + 2, year),
+    );
   });
 
   test('should show only one month when view type is month', () => {

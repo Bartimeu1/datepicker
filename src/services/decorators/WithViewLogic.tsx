@@ -14,15 +14,17 @@ import {
   IDateItem,
   IDecoratedCalendarProps,
 } from '@root/types/calendar';
+import { formatCalendarHeader } from '@root/utils/formatting';
 import {
-  formatMonthYear,
   getCalendarDates,
-  getNextMonth,
-  getPreviousMonth,
   getWeekCalendarDates,
   getYearCalendarDates,
 } from '@utils/calendar';
-import { parseDateItemIntoDate } from '@utils/date';
+import {
+  getNextMonthAndYear,
+  getPreviousMonthAndYear,
+  parseDateItemIntoDate,
+} from '@utils/date';
 import { syncInputWithState } from '@utils/helpers';
 
 interface IDateValueState {
@@ -46,7 +48,14 @@ export const WithViewLogic = (
     } = props;
 
     const [startDateValue, setStartDateValue] = useState<IDateValueState>(
-      syncInputWithState(startDateInputValue, minValue, maxValue),
+      () => {
+        const initialState = syncInputWithState(
+          startDateInputValue,
+          minValue,
+          maxValue,
+        );
+        return initialState;
+      },
     );
 
     const startDayIndex = useMemo(
@@ -83,17 +92,15 @@ export const WithViewLogic = (
 
     const getCurrentCalendarHeader = () => {
       return viewType !== CalendarViewTypesEnum.year
-        ? formatMonthYear(startDateValue.month, startDateValue.year)
+        ? formatCalendarHeader(startDateValue.month, startDateValue.year)
         : String(startDateValue.year);
     };
 
     const onPrevButtonClick = () => {
       //eslint-disable-next-line
       let { target, week, month, year } = startDateValue;
-      const { month: prevMonth, year: yearOfPrevMonth } = getPreviousMonth(
-        month,
-        year,
-      );
+      const { month: prevMonth, year: yearOfPrevMonth } =
+        getPreviousMonthAndYear(month, year);
 
       switch (viewType) {
         case CalendarViewTypesEnum.year:
@@ -124,7 +131,7 @@ export const WithViewLogic = (
     const onNextButtonClick = () => {
       //eslint-disable-next-line
       let { target, week, month, year } = startDateValue;
-      const { month: nextMonth, year: yearOfNextMonth } = getNextMonth(
+      const { month: nextMonth, year: yearOfNextMonth } = getNextMonthAndYear(
         month,
         year,
       );

@@ -6,8 +6,11 @@ import { IStyledCalendar } from './types';
 export const StyledCalendar = styled.div<IStyledCalendar>`
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: ${({ theme }) => theme.borderRadius.md}px;
-  padding: 15px 10px 10px;
   max-width: ${({ theme }) => theme.container.base}px;
+  padding: 15px 10px 10px;
+  position: absolute;
+  bottom: -280px;
+  z-index: 3;
 
   ${({ $isYearDisplay, theme }) =>
     $isYearDisplay &&
@@ -20,7 +23,7 @@ export const WeekdayName = styled.div`
   ${FlexMixin({ align: 'center', justify: 'center' })}
 
   font-weight: ${({ theme }) => theme.fontWeight.bold};
-  flex: 0 0 14%;
+  width: 14%;
   height: 32px;
 `;
 

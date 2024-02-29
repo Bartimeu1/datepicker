@@ -25,7 +25,7 @@ export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       [endDateInputValue, minValue, maxValue],
     );
 
-    const isTargetEnd = (date: IDateItem) => {
+    const isTargetRangeEnd = (date: IDateItem) => {
       if (targetEndDate) {
         const { day, month, year } = date;
         const {
@@ -82,7 +82,7 @@ export const WithRange = (Calendar: ComponentType<IDecoratedCalendarProps>) => {
       <Calendar
         {...props}
         isDayInRange={isDayInRange}
-        isTargetEndDay={isTargetEnd}
+        isTargetRangeEnd={isTargetRangeEnd}
         onRangeCalendarDayClick={onRangeCalendarDayClick}
       />
     );

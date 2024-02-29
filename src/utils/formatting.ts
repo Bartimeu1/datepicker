@@ -1,4 +1,4 @@
-import { daysInWeek } from '@constants/calendar';
+import { calendarMonth, daysInWeek } from '@constants/calendar';
 import { dateRegex, lettersRegex } from '@constants/regex';
 import {
   formatValidationText,
@@ -8,14 +8,22 @@ import {
 import { IDateItem } from '@root/types/calendar';
 import { parseDateItemIntoDate, parseInputValueIntoDate } from '@utils/date';
 
-export const formatDateItemToInput = (dateItem: IDateItem) => {
+export const getDateFormattedString = (
+  day: string | number,
+  month: string | number,
+  year: string | number,
+) => {
+  return `${day}/${month}/${year}`;
+};
+
+export const formatDateItemIntoInput = (dateItem: IDateItem) => {
   const dayString = dateItem.day.toString().padStart(2, '0');
   const monthString = dateItem.month.toString().padStart(2, '0');
 
-  return `${dayString}/${monthString}/${dateItem.year}`;
+  return getDateFormattedString(dayString, monthString, dateItem.year);
 };
 
-export const formatInputToDateItem = (inputDate: string) => {
+export const formatInputValueIntoDateItem = (inputDate: string) => {
   const [dayStr, monthStr, yearStr] = inputDate.split('/');
   const day = Number(dayStr);
   const month = Number(monthStr);
@@ -30,6 +38,12 @@ export const formatInputToDateItem = (inputDate: string) => {
   };
 };
 
+export const formatCalendarHeader = (month: number, year: number) => {
+  const monthObject = calendarMonth.find((item) => item.id === month);
+
+  return `${monthObject?.fullName} ${year}`;
+};
+
 export const validateInputValue = (
   inputValue: string,
   minDateItem?: IDateItem | null,
@@ -40,13 +54,17 @@ export const validateInputValue = (
   }
 
   const selectedDate = parseInputValueIntoDate(inputValue);
+  const isSelectedDateLowerThanMinDate =
+    minDateItem && selectedDate < parseDateItemIntoDate(minDateItem);
+  const isSelectedDateGreaterThanMaxDate =
+    maxDateItem && selectedDate > parseDateItemIntoDate(maxDateItem);
 
-  if (minDateItem && selectedDate < parseDateItemIntoDate(minDateItem)) {
-    return `${greaterValidationText} ${formatDateItemToInput(minDateItem)}`;
+  if (isSelectedDateLowerThanMinDate) {
+    return `${greaterValidationText} ${formatDateItemIntoInput(minDateItem)}`;
   }
 
-  if (maxDateItem && selectedDate > parseDateItemIntoDate(maxDateItem)) {
-    return `${lowerValidationText} ${formatDateItemToInput(maxDateItem)}`;
+  if (isSelectedDateGreaterThanMaxDate) {
+    return `${lowerValidationText} ${formatDateItemIntoInput(maxDateItem)}`;
   }
 
   return '';

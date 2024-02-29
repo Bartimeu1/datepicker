@@ -32,7 +32,7 @@ export interface IDecoratedCalendarProps extends ICalendarProps {
   onPrevButtonClick: () => void;
   onNextButtonClick: () => void;
   isTargetDay: (date: IDateItem) => boolean;
-  isTargetEndDay: (date: IDateItem) => boolean;
+  isTargetRangeEnd: (date: IDateItem) => boolean;
   isDayInRange: (date: IDateItem) => boolean;
   isDayDisabled: (date: IDateItem) => boolean;
   onRangeCalendarDayClick: (date: IDateItem) => () => void;
