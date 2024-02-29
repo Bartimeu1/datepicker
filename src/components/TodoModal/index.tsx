@@ -31,7 +31,10 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
     } else return [];
   };
 
-  const [todoItems, setTodoItems] = useState<ITodoItem[]>(getTodos());
+  const [todoItems, setTodoItems] = useState<ITodoItem[]>(() => {
+    const initialState = getTodos();
+    return initialState;
+  });
 
   const setTodos = useCallback(() => {
     localStorage.setItem(
@@ -86,6 +89,7 @@ export const TodoModal = ({ dateItem, closeModal }: ITodoModalProps) => {
           placeholder="Enter your task..."
           value={inputValue}
           onChange={onInputValueChange}
+          maxLength={15}
         />
         <ModalControls>
           <AddButton onClick={addTodo} data-testid="todo-accept-button">
