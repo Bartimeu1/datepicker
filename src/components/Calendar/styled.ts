@@ -8,6 +8,8 @@ export const StyledCalendar = styled.div<IStyledCalendar>`
   border-radius: ${({ theme }) => theme.borderRadius.md}px;
   padding: 15px 10px 10px;
   position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 3;
 `;
 
@@ -48,11 +50,22 @@ export const CalendarDisplay = styled.div<IStyledCalendar>`
   })};
 
   margin-bottom: -10px;
+  width: ${({ theme }) => theme.calendarWidth.sm}px;
 
-  ${({ $isYearDisplay }) =>
-    !$isYearDisplay &&
+  ${({ $isYearDisplay, theme }) =>
+    $isYearDisplay &&
     `
-    display: block;
+    width: ${theme.calendarWidth.lg}px;
+    
+    @media (max-width: ${theme.breakpoints.tablet}px) {
+      width: ${theme.calendarWidth.md}px;
+    }
+
+    @media (max-width: ${theme.breakpoints.mobile}px) {
+      width: ${theme.calendarWidth.sm}px;
+      max-height: 240px;
+      overflow-y: scroll;
+    }
   `}
 `;
 

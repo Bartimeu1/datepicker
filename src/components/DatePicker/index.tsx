@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { DecoratedCalendar } from '@components/Calendar';
 import { ConfigProvider } from '@components/ConfigProvider';
@@ -18,6 +18,8 @@ import { IDatePickerProps } from './types';
 
 export const DatePicker = (props: IDatePickerProps) => {
   const {
+    onChange,
+    onEndChange,
     holidays = false,
     todos = false,
     range = false,
@@ -32,6 +34,14 @@ export const DatePicker = (props: IDatePickerProps) => {
   const [endDateInputValue, setEndDateInputValue] = useState('');
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
+  useEffect(() => {
+    onChange && onChange(startDateInputValue);
+  }, [startDateInputValue, onChange]);
+
+  useEffect(() => {
+    onEndChange && onEndChange(endDateInputValue);
+  }, [endDateInputValue, onEndChange]);
+
   const onCalendarIconClick = useCallback(() => {
     setIsCalendarVisible((prevState) => !prevState);
   }, []);
@@ -44,8 +54,10 @@ export const DatePicker = (props: IDatePickerProps) => {
 
     if (type === DateInputTypesEnum.start) {
       setStartDateInputValue(dateInputValue);
+      onChange && onChange(dateInputValue);
     } else {
       setEndDateInputValue(dateInputValue);
+      onEndChange && onEndChange(dateInputValue);
     }
   };
 

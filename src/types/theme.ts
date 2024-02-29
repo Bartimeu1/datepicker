@@ -14,7 +14,10 @@ export interface ITheme {
   borderRadius: {
     [key: string]: number;
   };
-  container: {
+  calendarWidth: {
+    [key: string]: number;
+  };
+  breakpoints: {
     [key: string]: number;
   };
 }

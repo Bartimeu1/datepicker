@@ -12,4 +12,6 @@ export interface IDatePickerProps {
   todos?: boolean;
   viewType?: LiteralViewTypes;
   startDay?: LiteralStartDays;
+  onChange?: (value: string) => void;
+  onEndChange?: (value: string) => void;
 }

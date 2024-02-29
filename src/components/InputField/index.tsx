@@ -32,7 +32,9 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
   }, [dateInputValue, minValue, maxValue]);
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(applyDateMask(e.target.value));
+    const inputValue = applyDateMask(e.target.value);
+
+    setInputValue(inputValue);
   };
 
   const onClearButtonClick = () => {
