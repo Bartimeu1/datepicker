@@ -23,7 +23,6 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
     maxValue,
     setInputValue,
     label,
-    onChange,
   } = props;
 
   const inputValidationText = useMemo(() => {
@@ -36,7 +35,6 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
     const inputValue = applyDateMask(e.target.value);
 
     setInputValue(inputValue);
-    onChange && onChange(inputValue);
   };
 
   const onClearButtonClick = () => {
