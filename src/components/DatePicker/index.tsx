@@ -18,6 +18,8 @@ import { IDatePickerProps } from './types';
 
 export const DatePicker = (props: IDatePickerProps) => {
   const {
+    onChange,
+    onEndChange,
     holidays = false,
     todos = false,
     range = false,
@@ -44,8 +46,10 @@ export const DatePicker = (props: IDatePickerProps) => {
 
     if (type === DateInputTypesEnum.start) {
       setStartDateInputValue(dateInputValue);
+      onChange && onChange(dateInputValue);
     } else {
       setEndDateInputValue(dateInputValue);
+      onEndChange && onEndChange(dateInputValue);
     }
   };
 
@@ -77,6 +81,7 @@ export const DatePicker = (props: IDatePickerProps) => {
           label={startInputLabel}
           setInputValue={setStartDateInputValue}
           dateInputValue={startDateInputValue}
+          onChange={onChange}
           {...inputFieldProps}
         />
         {range && (
@@ -84,6 +89,7 @@ export const DatePicker = (props: IDatePickerProps) => {
             label={'To'}
             setInputValue={setEndDateInputValue}
             dateInputValue={endDateInputValue}
+            onChange={onEndChange}
             {...inputFieldProps}
           />
         )}

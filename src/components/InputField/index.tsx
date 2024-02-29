@@ -23,6 +23,7 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
     maxValue,
     setInputValue,
     label,
+    onChange,
   } = props;
 
   const inputValidationText = useMemo(() => {
@@ -32,7 +33,10 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
   }, [dateInputValue, minValue, maxValue]);
 
   const onInputValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(applyDateMask(e.target.value));
+    const inputValue = applyDateMask(e.target.value);
+
+    setInputValue(inputValue);
+    onChange && onChange(inputValue);
   };
 
   const onClearButtonClick = () => {
