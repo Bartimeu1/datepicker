@@ -6,17 +6,9 @@ import { IStyledCalendar } from './types';
 export const StyledCalendar = styled.div<IStyledCalendar>`
   border: 1px solid ${({ theme }) => theme.color.border};
   border-radius: ${({ theme }) => theme.borderRadius.md}px;
-  max-width: ${({ theme }) => theme.container.base}px;
   padding: 15px 10px 10px;
   position: absolute;
-  bottom: -280px;
   z-index: 3;
-
-  ${({ $isYearDisplay, theme }) =>
-    $isYearDisplay &&
-    `
-    max-width: ${theme.container.year}px;
-  `};
 `;
 
 export const WeekdayName = styled.div`
