@@ -42,7 +42,7 @@ export const CalendarDay = memo(function CalendarDay(props: ICalendarDayProps) {
   };
 
   const handleDoubleClick = () => {
-    if (!isDisabled) {
+    if (!isDisabled && toggleTodoModal) {
       toggleTodoModal();
     }
   };

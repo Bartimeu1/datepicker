@@ -16,11 +16,14 @@ export const getDateFormattedString = (
   return `${day}/${month}/${year}`;
 };
 
-export const formatDateItemIntoInput = (dateItem: IDateItem) => {
-  const dayString = dateItem.day.toString().padStart(2, '0');
-  const monthString = dateItem.month.toString().padStart(2, '0');
+export const formatDateItemIntoInput = (dateItem: IDateItem | null) => {
+  if (dateItem) {
+    const dayString = dateItem.day.toString().padStart(2, '0');
+    const monthString = dateItem.month.toString().padStart(2, '0');
 
-  return getDateFormattedString(dayString, monthString, dateItem.year);
+    return getDateFormattedString(dayString, monthString, dateItem.year);
+  }
+  return '';
 };
 
 export const formatInputValueIntoDateItem = (inputDate: string) => {

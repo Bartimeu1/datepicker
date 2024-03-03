@@ -11,7 +11,7 @@ import {
   DateInputTypesEnum,
   IDateItem,
 } from '@root/types/calendar';
-import { formatDateItemIntoInput } from '@utils/formatting';
+import { formatDateItemIntoInput, validateInputValue } from '@utils/formatting';
 
 import { StyledDatePicker } from './styled';
 import { IDatePickerProps } from './types';
@@ -34,17 +34,25 @@ export const DatePicker = (props: IDatePickerProps) => {
   const [endDateInputValue, setEndDateInputValue] = useState('');
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
-  useEffect(() => {
-    onChange && onChange(startDateInputValue);
-  }, [startDateInputValue, onChange]);
-
-  useEffect(() => {
-    onEndChange && onEndChange(endDateInputValue);
-  }, [endDateInputValue, onEndChange]);
-
   const onCalendarIconClick = useCallback(() => {
     setIsCalendarVisible((prevState) => !prevState);
   }, []);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(
+        !validateInputValue(startDateInputValue) ? startDateInputValue : '',
+      );
+    }
+  }, [startDateInputValue, onChange]);
+
+  useEffect(() => {
+    if (onEndChange) {
+      onEndChange(
+        !validateInputValue(endDateInputValue) ? endDateInputValue : '',
+      );
+    }
+  }, [endDateInputValue, onEndChange]);
 
   const changeDateInputValue = (
     dateItem: IDateItem | null,
@@ -86,6 +94,7 @@ export const DatePicker = (props: IDatePickerProps) => {
     <ConfigProvider>
       <StyledDatePicker ref={pickerRef}>
         <InputField
+          onChange={onChange}
           label={startInputLabel}
           setInputValue={setStartDateInputValue}
           dateInputValue={startDateInputValue}
@@ -93,6 +102,7 @@ export const DatePicker = (props: IDatePickerProps) => {
         />
         {range && (
           <InputField
+            onChange={onEndChange}
             label={'To'}
             setInputValue={setEndDateInputValue}
             dateInputValue={endDateInputValue}

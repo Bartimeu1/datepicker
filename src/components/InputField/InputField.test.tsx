@@ -18,10 +18,16 @@ const mockedProps: IInputFieldProps = {
   isCalendarVisible: false,
   setInputValue: jest.fn(),
   onCalendarIconClick: jest.fn(),
+  onChange: jest.fn(),
 };
 
 const mockedInputDate = '01/01/2024';
-const mockedInputDateItem = { year: 2024, day: 1, month: 1 };
+const currentDate = new Date();
+const mockedInputDateItem = {
+  year: currentDate.getFullYear(),
+  month: currentDate.getMonth(),
+  day: currentDate.getDate(),
+};
 
 describe('InputField component', () => {
   test('component should render correctly', () => {

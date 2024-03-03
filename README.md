@@ -14,7 +14,24 @@ This library provides components and functionality for creating beautiful, light
 import { DatePicker } from 'datepicker';
 
 const Component = () => {
-  return <DatePicker />;
+  const [dateValue, setDateValue] = useState('');
+
+  return <DatePicker onChange={(value) => setDateValue(value)} />;
+};
+
+With range:
+
+const Component = () => {
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  return (
+    <DatePicker
+      range
+      onChange={(value) => setStartDate(value)}
+      onEndChange={(value) => setEndDate(value)}
+    />
+  );
 };
 ```
 
@@ -29,3 +46,5 @@ You can add specific functionality using these props:
 - startDay?: - Specifies the starting day of the week ('monday', 'sunday') (def: 'monday')
 - minValue?: - Specifies the minimum date that can be selected in the datepicker. Provide the minimum date in the format { year: number, month: number, day: number}.
 - minValue?: - Specifies the maximum date that can be selected in the datepicker. Provide the minimum date in the format { year: number, month: number, day: number}.
+- onChange?: - Callback to retrieve values from the input.
+- onEndChange?: - Callback to retrieve values from the End input (if range selected).

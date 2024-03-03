@@ -23,6 +23,7 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
     maxValue,
     setInputValue,
     label,
+    onChange,
   } = props;
 
   const inputValidationText = useMemo(() => {
@@ -39,6 +40,7 @@ export const InputField = memo(function InputField(props: IInputFieldProps) {
 
   const onClearButtonClick = () => {
     setInputValue('');
+    onChange && onChange('');
   };
 
   return (
