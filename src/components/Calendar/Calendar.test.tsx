@@ -12,10 +12,11 @@ import { formatCalendarHeader } from '@utils/formatting';
 
 import { DecoratedCalendar } from '.';
 
+const currentDate = new Date();
 const mockedDateItem: IDateItem = {
-  year: 2024,
-  month: 1,
-  day: 1,
+  year: currentDate.getFullYear(),
+  month: currentDate.getMonth(),
+  day: currentDate.getDate(),
 };
 
 const { year, month } = mockedDateItem;
